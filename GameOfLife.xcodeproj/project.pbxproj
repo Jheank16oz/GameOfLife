@@ -10,6 +10,7 @@
 		3FE9465227B1B73D00FF24ED /* GameOfLife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9464927B1B73C00FF24ED /* GameOfLife.framework */; };
 		3FE9465727B1B73D00FF24ED /* GameOfLifeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE9465627B1B73D00FF24ED /* GameOfLifeTests.swift */; };
 		3FE9465827B1B73D00FF24ED /* GameOfLife.h in Headers */ = {isa = PBXBuildFile; fileRef = 3FE9464C27B1B73C00FF24ED /* GameOfLife.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3FE9466227B1E21600FF24ED /* GameOfLife.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE9466127B1E21600FF24ED /* GameOfLife.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +28,7 @@
 		3FE9464C27B1B73C00FF24ED /* GameOfLife.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameOfLife.h; sourceTree = "<group>"; };
 		3FE9465127B1B73D00FF24ED /* GameOfLifeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameOfLifeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FE9465627B1B73D00FF24ED /* GameOfLifeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOfLifeTests.swift; sourceTree = "<group>"; };
+		3FE9466127B1E21600FF24ED /* GameOfLife.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOfLife.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				3FE9464C27B1B73C00FF24ED /* GameOfLife.h */,
+				3FE9466127B1E21600FF24ED /* GameOfLife.swift */,
 			);
 			path = GameOfLife;
 			sourceTree = "<group>";
@@ -144,6 +147,7 @@
 				TargetAttributes = {
 					3FE9464827B1B73C00FF24ED = {
 						CreatedOnToolsVersion = 13.0;
+						LastSwiftMigration = 1300;
 					};
 					3FE9465027B1B73D00FF24ED = {
 						CreatedOnToolsVersion = 13.0;
@@ -191,6 +195,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FE9466227B1E21600FF24ED /* GameOfLife.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,6 +343,7 @@
 		3FE9465C27B1B73D00FF24ED /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -358,6 +364,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -366,6 +373,7 @@
 		3FE9465D27B1B73D00FF24ED /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -394,6 +402,7 @@
 		3FE9465F27B1B73D00FF24ED /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZTBH29ZRG3;
@@ -415,6 +424,7 @@
 		3FE9466027B1B73D00FF24ED /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZTBH29ZRG3;
