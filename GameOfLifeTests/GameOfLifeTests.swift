@@ -41,16 +41,19 @@ class GameOfLifeTests: XCTestCase {
     }
     
     func nextGeneration(){
-        if cells[indexNextGeneration.x][indexNextGeneration.y - 1] == true {
-            if cells[indexNextGeneration.x][indexNextGeneration.y + 1] == true {
-                cells[2][2] = true
-            } else {
-                cells[2][2] = false
+        for (indexRow, _) in cells.enumerated() {
+            for (columnIndex, _) in cells[indexRow].enumerated() {
+                if cells[indexNextGeneration.x][indexNextGeneration.y - 1] == true {
+                    if cells[indexNextGeneration.x][indexNextGeneration.y + 1] == true {
+                        cells[indexRow][columnIndex] = true
+                    } else {
+                        cells[indexRow][columnIndex] = false
+                    }
+                } else{
+                    cells[indexRow][columnIndex] = false
+                }
             }
-        } else{
-            cells[2][2] = false
         }
-            
     }
     
     func generatePopulation(){
