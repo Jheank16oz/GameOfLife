@@ -9,17 +9,31 @@ import Foundation
 
 internal class LiveGenerator {
     
-    init( cells: [[State]]){
-        
+    let neighboursCounter:NeighboursCounter
+    let cells:[[State]]
+    let cellIndex = 0
+    
+    init( cells: [[State]], neighboursCounter: NeighboursCounter){
+        self.cells = cells
+        self.neighboursCounter = neighboursCounter
     }
   
     func nextGeneration(){
+        for (indexRow,cell) in cells.enumerated() {
+            for (indexCol, _) in cell.enumerated() {
+                evaluate(row: indexRow, col: indexCol)
+            }
+        }
+    }
+    
+    func evaluate(row:Int, col:Int){
         
     }
     
-    func getCellAt(_:(row: Int, col: Int)) -> State {
-        return .death
+    func death(){
+        
     }
+    
 }
 
 

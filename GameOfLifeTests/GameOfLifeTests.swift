@@ -10,18 +10,30 @@ import XCTest
 
 class GameOfLifeTests: XCTestCase {
     
-    
+    func test_nextGeneration_everyCellShouldBeIterated(){
+        let cells = seedWith(type: .thereIsNotLife)
+        let liveGenerator = LiveGeneratorSpy(cells:cells, neighboursCounter:NeighboursCounterSpy())
+        
+        liveGenerator.nextGeneration()
+        
+        let expectedIndices = getExpectedIndicesFrom(cells: cells)
+        let expectedCalls = expectedIndices.count
+        
+        XCTAssertEqual(liveGenerator.evaluations, expectedIndices)
+        XCTAssertEqual(liveGenerator.evaluations.count, expectedCalls)
+    }
     
     
     func test_dies_anyLiveCellWithFewerThanTwoLiveNeighboursDies() {
         
         //given a live cell
-        let cell = seedWith(type:.liveCellWithFewerThanTwoLiveNeighbours)
-        let liveGenerator = LiveGenerator(cells:cell.cells)
+        //let cell = seedWith(type:.liveCellWithFewerThanTwoLiveNeighbours)
+        let liveGenerator = LiveGeneratorSpy(cells:[[]], neighboursCounter:NeighboursCounterSpy())
+        
         
         liveGenerator.nextGeneration()
         
-        XCTAssertEqual(liveGenerator.getCellAt(cell.cellPosition), State.death)
+        //XCTAssertTrue(liveGenerator.cellDeathCalled)
         
     }
     
@@ -34,29 +46,47 @@ class GameOfLifeTests: XCTestCase {
     
 }
 
+func getExpectedIndicesFrom(cells:[[State]]) -> [[Int]]{
+    var expectedIndices = [[Int]]()
+    for (indexCell,cell) in cells.enumerated() {
+        for (indexRow, _) in cell.enumerated() {
+            expectedIndices.append([indexCell,indexRow])
+        }
+    }
+    
+    return expectedIndices
+}
+
+class NeighboursCounterSpy: NeighboursCounter{
+    
+    
+}
+
 class LiveGeneratorSpy:LiveGenerator{
     
-    var cellDeathCalled = 0
+    var evaluations = [[Int]]()
+    
+    override func evaluate(row: Int, col: Int) {
+        evaluations.append([row, col])
+    }
     
 }
 
 enum HelperSeedType{
-    case liveCellWithFewerThanTwoLiveNeighbours
+    case thereIsNotLife
 }
     
-func seedWith(type: HelperSeedType) -> (cells: [[State]], cellPosition:(row: Int, col: Int)){
+func seedWith(type: HelperSeedType) -> [[State]]{
     
     switch type{
-    case .liveCellWithFewerThanTwoLiveNeighbours:
-        return (
-            cells: [
+    case .thereIsNotLife:
+        return[
             [.death, .death, .death, .death],
             [.death, .death, .death, .death],
-            [.death, .alive, .death, .death],
             [.death, .death, .death, .death],
-            [.death, .death, .death, .death]],
-            cellPosition:(row: 2, col: 2))
+            [.death, .death, .death, .death],
+            [.death, .death, .death, .death]]
     default:
-        return (cells: [[]], cellPosition:(row: 0, col: 0))
+        return [[]]
     }
 }
