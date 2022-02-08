@@ -27,10 +27,16 @@ internal class LiveGenerator {
     }
     
     func evaluate(row:Int, col:Int){
-        neighboursCounter.neighBoursOf()
+        let count = neighboursCounter.neighboursOf(row:row,col:col)
+        if count >= 0 {
+            if count < 2 {
+                die(row: row, col: col)
+            }
+        }
+        
     }
     
-    func death(){
+    func die(row: Int, col: Int){
         
     }
     

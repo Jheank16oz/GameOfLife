@@ -28,13 +28,15 @@ class GameOfLifeTests: XCTestCase {
     
     func test_dies_anyLiveCellWithFewerThanTwoLiveNeighboursDies() {
         
-        //given a live cell
-        //let cell = seedWith(type:.liveCellWithFewerThanTwoLiveNeighbours)
-       /* let liveGenerator = LiveGeneratorSpy(cells:seedWith(type: .thereIsNotLife), neighboursCounter:NeighboursCounterSpy())
-        NeighboursCounterSpy.addCellResponse()
+        let counterSpy = NeighboursCounterSpy()
+        counterSpy.setNeighboursCountAt(row: 0, col: 2, count:1)
+        counterSpy.setNeighboursCountAt(row: 2, col: 2, count:0)
+        let liveGenerator = LiveGeneratorSpy(cells:seedWith(type: .thereIsNotLife), neighboursCounter:counterSpy)
+        
         liveGenerator.nextGeneration()
         
-        XCTAssertTrue(liveGenerator.cellDeathCalled)*/
+        
+        XCTAssertEqual(liveGenerator.deathCellsCalled, [[0,2], [2,2]])
         
     }
 }
@@ -52,10 +54,19 @@ func getExpectedIndicesFrom(cells:[[State]]) -> [[Int]]{
 
 class NeighboursCounterSpy: NeighboursCounter{
     var neighBoursCalls = 0
+    var neighboursCount = [(row:Int,col:Int, count: Int)]()
     
-    override func neighBoursOf(){
-        super.neighBoursOf()
+    func setNeighboursCountAt(row:Int,col:Int, count: Int){
+        neighboursCount.append((row:row,col:col, count: count))
+    }
+    func neighboursOf(row:Int,col:Int) -> Int{
         neighBoursCalls += 1
+        for neighboursCount in neighboursCount {
+            if row == neighboursCount.row && col == neighboursCount.col {
+                return neighboursCount.count
+            }
+        }
+        return -1
     }
     
     
@@ -64,10 +75,15 @@ class NeighboursCounterSpy: NeighboursCounter{
 class LiveGeneratorSpy:LiveGenerator{
     
     var evaluations = [[Int]]()
+    var deathCellsCalled = [[Int]]()
     
     override func evaluate(row: Int, col: Int) {
         super.evaluate(row: row, col: col)
         evaluations.append([row, col])
+    }
+    
+    override func die(row: Int, col: Int) {
+        deathCellsCalled.append([row, col])
     }
     
 }
