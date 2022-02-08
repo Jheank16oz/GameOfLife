@@ -27,7 +27,7 @@ internal class LiveGenerator {
     }
     
     func evaluate(row:Int, col:Int){
-        
+        neighboursCounter.neighBoursOf()
     }
     
     func death(){

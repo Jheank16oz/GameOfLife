@@ -12,7 +12,8 @@ class GameOfLifeTests: XCTestCase {
     
     func test_nextGeneration_everyCellShouldBeIterated(){
         let cells = seedWith(type: .thereIsNotLife)
-        let liveGenerator = LiveGeneratorSpy(cells:cells, neighboursCounter:NeighboursCounterSpy())
+        let counterSpy = NeighboursCounterSpy()
+        let liveGenerator = LiveGeneratorSpy(cells:cells, neighboursCounter:counterSpy)
         
         liveGenerator.nextGeneration()
         
@@ -21,6 +22,7 @@ class GameOfLifeTests: XCTestCase {
         
         XCTAssertEqual(liveGenerator.evaluations, expectedIndices)
         XCTAssertEqual(liveGenerator.evaluations.count, expectedCalls)
+        XCTAssertEqual(counterSpy.neighBoursCalls, expectedCalls)
     }
     
     
@@ -28,22 +30,13 @@ class GameOfLifeTests: XCTestCase {
         
         //given a live cell
         //let cell = seedWith(type:.liveCellWithFewerThanTwoLiveNeighbours)
-        let liveGenerator = LiveGeneratorSpy(cells:[[]], neighboursCounter:NeighboursCounterSpy())
-        
-        
+       /* let liveGenerator = LiveGeneratorSpy(cells:seedWith(type: .thereIsNotLife), neighboursCounter:NeighboursCounterSpy())
+        NeighboursCounterSpy.addCellResponse()
         liveGenerator.nextGeneration()
         
-        //XCTAssertTrue(liveGenerator.cellDeathCalled)
+        XCTAssertTrue(liveGenerator.cellDeathCalled)*/
         
     }
-    
-    
-    
-    
-    
-    
-    
-    
 }
 
 func getExpectedIndicesFrom(cells:[[State]]) -> [[Int]]{
@@ -58,6 +51,12 @@ func getExpectedIndicesFrom(cells:[[State]]) -> [[Int]]{
 }
 
 class NeighboursCounterSpy: NeighboursCounter{
+    var neighBoursCalls = 0
+    
+    override func neighBoursOf(){
+        super.neighBoursOf()
+        neighBoursCalls += 1
+    }
     
     
 }
@@ -67,6 +66,7 @@ class LiveGeneratorSpy:LiveGenerator{
     var evaluations = [[Int]]()
     
     override func evaluate(row: Int, col: Int) {
+        super.evaluate(row: row, col: col)
         evaluations.append([row, col])
     }
     

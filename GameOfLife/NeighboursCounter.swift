@@ -12,5 +12,7 @@ import Foundation
 
 class NeighboursCounter {
     
-    
+    func neighBoursOf(){
+        
+    }
 }
