@@ -28,12 +28,13 @@ class GameOfLifeTests: XCTestCase {
     
     func test_die_anyLiveCellWithFewerThanTwoLiveNeighboursDies() {
         
+        let cells = seedWith(type: .thereIsNotLife)
         let counterSpy = NeighboursCounterSpy()
         let alive1 = (row: 0, col: 2, count:1)
         let alive0 = (row: 2, col: 2, count:0)
         counterSpy.setNeighboursCount(neighboursCount: [alive1,alive0])
         
-        let cells = seedWith(type: .thereIsNotLife)
+        
         let liveGenerator = LiveGeneratorSpy(cells:cells, neighboursCounter:counterSpy)
         
         liveGenerator.nextGeneration()
@@ -43,6 +44,9 @@ class GameOfLifeTests: XCTestCase {
             [alive1.row,alive1.col],
             [alive0.row,alive0.col]
         ])
+        
+        XCTAssertEqual(cells[alive1.row][ alive1.col], .death)
+        XCTAssertEqual(cells[alive0.row][ alive0.col], .death)
     }
 }
 
