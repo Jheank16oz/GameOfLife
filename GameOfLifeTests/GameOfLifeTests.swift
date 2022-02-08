@@ -18,23 +18,11 @@ class GameOfLifeTests: XCTestCase {
         let game = GameOfLife(cells: generatePopulation())
         let states = [LiveNeighbours.zeroAlive, LiveNeighbours.oneAlive]
         
-        
-        let a:[Bool] = [false,false,false,false,false]
-        let b:[Bool] = [false,false,false,false,false]
-        let c:[Bool] = [false,false,false,false,false]
-        let d:[Bool] = [false,false,false,false,false]
-        let e:[Bool] = [false,false,false,false,false]
-        
-        let expected =  [a, b, c, d, e]
-        
         for state in states {
             game.initialState(state: state)
             game.nextGeneration()
-            XCTAssertEqual(game.cells, expected)
+            XCTAssertEqual(game.cells, thereIsNoLife)
         }
-        
-        
-        
     }
     
     
@@ -68,3 +56,11 @@ extension GameOfLife {
         }
     }
 }
+
+let a:[Bool] = [false,false,false,false,false]
+let b:[Bool] = [false,false,false,false,false]
+let c:[Bool] = [false,false,false,false,false]
+let d:[Bool] = [false,false,false,false,false]
+let e:[Bool] = [false,false,false,false,false]
+
+let thereIsNoLife =  [a, b, c, d, e]
