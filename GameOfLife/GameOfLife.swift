@@ -7,11 +7,23 @@
 
 import Foundation
 
-class GameOfLife {
-    let cells:[[Bool]]
+final class GameOfLife {
+    var cells:[[Bool]]
     
     init(cells:[[Bool]]){
         self.cells = cells
     }
-          
+         
+    func nextGeneration(){
+        
+        for (rowIndex, rows) in cells.enumerated() {
+            for (columnIndex, cell) in rows.enumerated() {
+                if cell == true {
+                    cells[rowIndex][columnIndex] = false
+                }
+                    
+            }
+                
+        }
+    }
 }
