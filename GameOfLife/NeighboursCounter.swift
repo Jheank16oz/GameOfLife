@@ -12,5 +12,5 @@ import Foundation
 
 protocol NeighboursCounter {
     
-    func neighboursOf(row:Int,col:Int) -> Int
+    func neighboursCountAt(row:Int,col:Int) -> Int
 }

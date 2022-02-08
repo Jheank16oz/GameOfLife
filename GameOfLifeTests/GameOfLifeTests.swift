@@ -29,8 +29,10 @@ class GameOfLifeTests: XCTestCase {
     func test_dies_anyLiveCellWithFewerThanTwoLiveNeighboursDies() {
         
         let counterSpy = NeighboursCounterSpy()
-        counterSpy.setNeighboursCountAt(row: 0, col: 2, count:1)
-        counterSpy.setNeighboursCountAt(row: 2, col: 2, count:0)
+        let oneNeighboursAlive = (row: 0, col: 2, count:1)
+        let zeroNeighboursAlive = (row: 2, col: 2, count:0)
+        
+        counterSpy.setNeighboursCount(neighboursCount: [oneNeighboursAlive,zeroNeighboursAlive])
         let liveGenerator = LiveGeneratorSpy(cells:seedWith(type: .thereIsNotLife), neighboursCounter:counterSpy)
         
         liveGenerator.nextGeneration()
@@ -56,10 +58,10 @@ class NeighboursCounterSpy: NeighboursCounter{
     var neighBoursCalls = 0
     var neighboursCount = [(row:Int,col:Int, count: Int)]()
     
-    func setNeighboursCountAt(row:Int,col:Int, count: Int){
-        neighboursCount.append((row:row,col:col, count: count))
+    func setNeighboursCount(neighboursCount:[(row:Int,col:Int, count: Int)]){
+        self.neighboursCount = neighboursCount
     }
-    func neighboursOf(row:Int,col:Int) -> Int{
+    func neighboursCountAt(row:Int,col:Int) -> Int{
         neighBoursCalls += 1
         for neighboursCount in neighboursCount {
             if row == neighboursCount.row && col == neighboursCount.col {
