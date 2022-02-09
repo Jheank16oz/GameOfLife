@@ -41,7 +41,7 @@ internal class LiveGenerator {
     }
     
     func die(row: Int, col: Int){
-        
+        cells[row][col] = .death
     }
     
     func live(row: Int, col: Int){

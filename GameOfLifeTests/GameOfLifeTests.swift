@@ -28,15 +28,15 @@ class GameOfLifeTests: XCTestCase {
     
     func test_die_anyLiveCellWithFewerThanTwoLiveNeighboursDies() {
         
-        let cells = seedWith(type: .thereIsNotLife)
         let counterSpy = NeighboursCounterSpy()
         let alive1 = (row: 0, col: 2, count:1)
         let alive0 = (row: 2, col: 2, count:0)
         counterSpy.setNeighboursCount(neighboursCount: [alive1,alive0])
         
         
-        let liveGenerator = LiveGeneratorSpy(cells:cells, neighboursCounter:counterSpy)
-        
+        let liveGenerator = LiveGeneratorSpy(cells:seedWith(type: .thereIsNotLife), neighboursCounter:counterSpy)
+        liveGenerator.setLiveCell(row: alive1.row, col: alive1.col)
+        liveGenerator.setLiveCell(row: alive0.row, col: alive0.col)
         liveGenerator.nextGeneration()
         
         
@@ -45,21 +45,21 @@ class GameOfLifeTests: XCTestCase {
             [alive0.row,alive0.col]
         ])
         
-        XCTAssertEqual(cells[alive1.row][ alive1.col], .death)
-        XCTAssertEqual(cells[alive0.row][ alive0.col], .death)
+        XCTAssertEqual(liveGenerator.getCell(row: alive1.row, col: alive1.col), .death)
+        XCTAssertEqual(liveGenerator.getCell(row: alive0.row, col: alive0.col), .death)
     }
     
     func test_live_anyLiveCellWithTwoOrThreeLiveNeighboursLives() {
         
-        let cells = seedWith(type: .thereIsNotLife)
         let counterSpy = NeighboursCounterSpy()
         let alive2 = (row: 0, col: 2, count:2)
         let alive3 = (row: 2, col: 2, count:3)
         counterSpy.setNeighboursCount(neighboursCount: [alive2,alive3])
         
         
-        let liveGenerator = LiveGeneratorSpy(cells:cells, neighboursCounter:counterSpy)
-        
+        let liveGenerator = LiveGeneratorSpy(cells:seedWith(type: .thereIsNotLife), neighboursCounter:counterSpy)
+        liveGenerator.setLiveCell(row: alive2.row, col: alive2.col)
+        liveGenerator.setLiveCell(row: alive3.row, col: alive3.col)
         liveGenerator.nextGeneration()
         
         
@@ -74,15 +74,15 @@ class GameOfLifeTests: XCTestCase {
     
     func test_die_anyLiveCellWithMoreThanThreeLiveNeighboursDies() {
         
-        let cells = seedWith(type: .thereIsNotLife)
         let counterSpy = NeighboursCounterSpy()
         let alive4 = (row: 0, col: 2, count:4)
         let alive5 = (row: 2, col: 2, count:5)
         counterSpy.setNeighboursCount(neighboursCount: [alive4,alive5])
         
         
-        let liveGenerator = LiveGeneratorSpy(cells:cells, neighboursCounter:counterSpy)
-        
+        let liveGenerator = LiveGeneratorSpy(cells:seedWith(type: .thereIsNotLife), neighboursCounter:counterSpy)
+        liveGenerator.setLiveCell(row: alive4.row, col: alive4.col)
+        liveGenerator.setLiveCell(row: alive5.row, col: alive5.col)
         liveGenerator.nextGeneration()
         
         
@@ -115,6 +115,7 @@ class NeighboursCounterSpy: NeighboursCounter{
     func setNeighboursCount(neighboursCount:[(row:Int,col:Int, count: Int)]){
         self.neighboursCount = neighboursCount
     }
+    
     func neighboursCountAt(row:Int,col:Int) -> Int{
         neighBoursCalls += 1
         for neighboursCount in neighboursCount {
@@ -133,6 +134,7 @@ class LiveGeneratorSpy:LiveGenerator{
     var evaluations = [[Int]]()
     var dieCellsCalled = [[Int]]()
     var liveCellsCalled = [[Int]]()
+    var liveCells = [[Int]]()
     
     override func evaluate(row: Int, col: Int) {
         super.evaluate(row: row, col: col)
@@ -140,6 +142,7 @@ class LiveGeneratorSpy:LiveGenerator{
     }
     
     override func die(row: Int, col: Int) {
+        super.die(row: row, col: col)
         dieCellsCalled.append([row, col])
     }
     
@@ -149,8 +152,16 @@ class LiveGeneratorSpy:LiveGenerator{
     }
     
     func getCell(row: Int, col: Int) -> State{
-        return self.cells[row][col]
+        print(cells)
+        print("\n")
+        return cells[row][col]
     }
+    
+    func setLiveCell(row: Int, col: Int) {
+        cells[row][col] = .alive
+    }
+        
+        
 }
 
 enum HelperSeedType{
