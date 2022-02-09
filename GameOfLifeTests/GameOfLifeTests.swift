@@ -28,15 +28,12 @@ class GameOfLifeTests: XCTestCase {
     
     func test_die_anyLiveCellWithFewerThanTwoLiveNeighboursDies() {
         
-        let counterSpy = NeighboursCounterSpy()
-        let alive1 = (row: 0, col: 2, count:1)
-        let alive0 = (row: 2, col: 2, count:0)
-        counterSpy.setNeighboursCount(neighboursCount: [alive1,alive0])
+        let alive1 = (row: 0, col: 2, neighboursCount:1)
+        let alive0 = (row: 2, col: 2, neighboursCount:0)
         
+        let liveGenerator = makeLiveGenerator(
+            liveCells: [alive1, alive0])
         
-        let liveGenerator = LiveGeneratorSpy(cells:seedWith(type: .thereIsNotLife), neighboursCounter:counterSpy)
-        liveGenerator.setLiveCell(row: alive1.row, col: alive1.col)
-        liveGenerator.setLiveCell(row: alive0.row, col: alive0.col)
         liveGenerator.nextGeneration()
         
         
@@ -51,15 +48,12 @@ class GameOfLifeTests: XCTestCase {
     
     func test_live_anyLiveCellWithTwoOrThreeLiveNeighboursLives() {
         
-        let counterSpy = NeighboursCounterSpy()
-        let alive2 = (row: 0, col: 2, count:2)
-        let alive3 = (row: 2, col: 2, count:3)
-        counterSpy.setNeighboursCount(neighboursCount: [alive2,alive3])
         
+        let alive2 = (row: 0, col: 2, neighboursCount:2)
+        let alive3 = (row: 2, col: 2, neighboursCount:3)
         
-        let liveGenerator = LiveGeneratorSpy(cells:seedWith(type: .thereIsNotLife), neighboursCounter:counterSpy)
-        liveGenerator.setLiveCell(row: alive2.row, col: alive2.col)
-        liveGenerator.setLiveCell(row: alive3.row, col: alive3.col)
+        let liveGenerator = makeLiveGenerator(
+            liveCells: [alive2, alive3])
         liveGenerator.nextGeneration()
         
         
@@ -73,18 +67,13 @@ class GameOfLifeTests: XCTestCase {
     }
     
     func test_die_anyLiveCellWithMoreThanThreeLiveNeighboursDies() {
+        let alive4 = (row: 0, col: 2, neighboursCount:4)
+        let alive5 = (row: 2, col: 2, neighboursCount:5)
         
-        let counterSpy = NeighboursCounterSpy()
-        let alive4 = (row: 0, col: 2, count:4)
-        let alive5 = (row: 2, col: 2, count:5)
-        counterSpy.setNeighboursCount(neighboursCount: [alive4,alive5])
+        let liveGenerator = makeLiveGenerator(
+            liveCells: [alive4, alive5])
         
-        
-        let liveGenerator = LiveGeneratorSpy(cells:seedWith(type: .thereIsNotLife), neighboursCounter:counterSpy)
-        liveGenerator.setLiveCell(row: alive4.row, col: alive4.col)
-        liveGenerator.setLiveCell(row: alive5.row, col: alive5.col)
         liveGenerator.nextGeneration()
-        
         
         XCTAssertEqual(liveGenerator.dieCellsCalled, [
             [alive4.row,alive4.col],
@@ -95,6 +84,20 @@ class GameOfLifeTests: XCTestCase {
         XCTAssertEqual(liveGenerator.getCell(row: alive5.row, col: alive5.col), .death)
     }
     
+}
+
+func makeLiveGenerator(liveCells:[(row: Int, col: Int, neighboursCount: Int)]) -> LiveGeneratorSpy{
+    
+    let counterSpy = NeighboursCounterSpy()
+    
+    counterSpy.setNeighboursCount(neighboursCount: liveCells)
+    
+    let liveGenerator = LiveGeneratorSpy(cells:seedWith(type: .thereIsNotLife), neighboursCounter:counterSpy)
+    for liveCell in liveCells {
+        liveGenerator.setLiveCell(row: liveCell.row, col: liveCell.col)
+    }
+
+    return liveGenerator
 }
 
 func getExpectedIndicesFrom(cells:[[State]]) -> [[Int]]{
@@ -110,9 +113,9 @@ func getExpectedIndicesFrom(cells:[[State]]) -> [[Int]]{
 
 class NeighboursCounterSpy: NeighboursCounter{
     var neighBoursCalls = 0
-    var neighboursCount = [(row:Int,col:Int, count: Int)]()
+    var neighboursCount = [(row:Int, col:Int, neighboursCount: Int)]()
     
-    func setNeighboursCount(neighboursCount:[(row:Int,col:Int, count: Int)]){
+    func setNeighboursCount(neighboursCount:[(row:Int,col:Int, neighboursCount: Int)]){
         self.neighboursCount = neighboursCount
     }
     
@@ -120,7 +123,7 @@ class NeighboursCounterSpy: NeighboursCounter{
         neighBoursCalls += 1
         for neighboursCount in neighboursCount {
             if row == neighboursCount.row && col == neighboursCount.col {
-                return neighboursCount.count
+                return neighboursCount.neighboursCount
             }
         }
         return -1
@@ -178,7 +181,6 @@ func seedWith(type: HelperSeedType) -> [[State]]{
             [.death, .death, .death, .death],
             [.death, .death, .death, .death],
             [.death, .death, .death, .death]]
-    default:
-        return [[]]
     }
+    return [[]]
 }
