@@ -10,7 +10,7 @@ import Foundation
 internal class LiveGenerator {
     
     let neighboursCounter:NeighboursCounter
-    let cells:[[State]]
+    internal var cells:[[State]]
     let cellIndex = 0
     
     init( cells: [[State]], neighboursCounter: NeighboursCounter){
@@ -31,6 +31,8 @@ internal class LiveGenerator {
         if count >= 0 {
             if count < DeathCause.underpopulation {
                 die(row: row, col: col)
+            }else if count <= DeathCause.balanced {
+                live(row: row, col: col)
             }
         }
         
@@ -40,8 +42,13 @@ internal class LiveGenerator {
         
     }
     
+    func live(row: Int, col: Int){
+        cells[row][col] = .alive
+    }
+    
     struct DeathCause{
         static let underpopulation = 2
+        static let balanced = 3
     }
     
 }

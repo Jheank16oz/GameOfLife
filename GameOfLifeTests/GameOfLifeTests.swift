@@ -40,7 +40,7 @@ class GameOfLifeTests: XCTestCase {
         liveGenerator.nextGeneration()
         
         
-        XCTAssertEqual(liveGenerator.deathCellsCalled, [
+        XCTAssertEqual(liveGenerator.dieCellsCalled, [
             [alive1.row,alive1.col],
             [alive0.row,alive0.col]
         ])
@@ -48,6 +48,30 @@ class GameOfLifeTests: XCTestCase {
         XCTAssertEqual(cells[alive1.row][ alive1.col], .death)
         XCTAssertEqual(cells[alive0.row][ alive0.col], .death)
     }
+    
+    func test_live_anyLiveCellWithTwoOrThreeLiveNeighboursLives() {
+        
+        let cells = seedWith(type: .thereIsNotLife)
+        let counterSpy = NeighboursCounterSpy()
+        let alive2 = (row: 0, col: 2, count:2)
+        let alive3 = (row: 2, col: 2, count:3)
+        counterSpy.setNeighboursCount(neighboursCount: [alive2,alive3])
+        
+        
+        let liveGenerator = LiveGeneratorSpy(cells:cells, neighboursCounter:counterSpy)
+        
+        liveGenerator.nextGeneration()
+        
+        
+        XCTAssertEqual(liveGenerator.liveCellsCalled, [
+            [alive2.row,alive2.col],
+            [alive3.row,alive3.col]
+        ])
+        
+        XCTAssertEqual(liveGenerator.getCell(row: alive2.row, col: alive2.col), .alive)
+        XCTAssertEqual(liveGenerator.getCell(row: alive3.row, col: alive3.col), .alive)
+    }
+    
 }
 
 func getExpectedIndicesFrom(cells:[[State]]) -> [[Int]]{
@@ -84,7 +108,8 @@ class NeighboursCounterSpy: NeighboursCounter{
 class LiveGeneratorSpy:LiveGenerator{
     
     var evaluations = [[Int]]()
-    var deathCellsCalled = [[Int]]()
+    var dieCellsCalled = [[Int]]()
+    var liveCellsCalled = [[Int]]()
     
     override func evaluate(row: Int, col: Int) {
         super.evaluate(row: row, col: col)
@@ -92,9 +117,17 @@ class LiveGeneratorSpy:LiveGenerator{
     }
     
     override func die(row: Int, col: Int) {
-        deathCellsCalled.append([row, col])
+        dieCellsCalled.append([row, col])
     }
     
+    override func live(row: Int, col: Int) {
+        super.live(row: row, col: col)
+        liveCellsCalled.append([row, col])
+    }
+    
+    func getCell(row: Int, col: Int) -> State{
+        return self.cells[row][col]
+    }
 }
 
 enum HelperSeedType{
