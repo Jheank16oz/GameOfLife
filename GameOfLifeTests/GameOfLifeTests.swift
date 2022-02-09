@@ -72,6 +72,29 @@ class GameOfLifeTests: XCTestCase {
         XCTAssertEqual(liveGenerator.getCell(row: alive3.row, col: alive3.col), .alive)
     }
     
+    func test_die_anyLiveCellWithMoreThanThreeLiveNeighboursDies() {
+        
+        let cells = seedWith(type: .thereIsNotLife)
+        let counterSpy = NeighboursCounterSpy()
+        let alive4 = (row: 0, col: 2, count:4)
+        let alive5 = (row: 2, col: 2, count:5)
+        counterSpy.setNeighboursCount(neighboursCount: [alive4,alive5])
+        
+        
+        let liveGenerator = LiveGeneratorSpy(cells:cells, neighboursCounter:counterSpy)
+        
+        liveGenerator.nextGeneration()
+        
+        
+        XCTAssertEqual(liveGenerator.dieCellsCalled, [
+            [alive4.row,alive4.col],
+            [alive5.row,alive5.col]
+        ])
+        
+        XCTAssertEqual(liveGenerator.getCell(row: alive4.row, col: alive4.col), .death)
+        XCTAssertEqual(liveGenerator.getCell(row: alive5.row, col: alive5.col), .death)
+    }
+    
 }
 
 func getExpectedIndicesFrom(cells:[[State]]) -> [[Int]]{
