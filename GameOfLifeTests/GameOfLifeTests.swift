@@ -135,7 +135,7 @@ func assertDead(liveGenerator:LiveGeneratorSpy, initialCells:[SpyCell], file: St
     XCTAssertEqual(liveGenerator.liveCellsCalled, [], file: file, line: line)
         
     for cell in initialCells {
-        XCTAssertEqual(liveGenerator.getCell(row: cell.row, col: cell.col), .dead)
+        XCTAssertEqual(liveGenerator.getCell(row: cell.row, col: cell.col), .dead, file: file, line: line)
     }
 }
 
