@@ -130,14 +130,6 @@ class GameOfLifeTests: XCTestCase {
 
 // Helpers
 
-func assertDead(liveGenerator:LiveGeneratorSpy, initialCells:[SpyCell], file: StaticString = #filePath, line: UInt = #line){
-    
-        
-    for cell in initialCells {
-        XCTAssertEqual(liveGenerator.getCell(row: cell.row, col: cell.col), .dead, file: file, line: line)
-    }
-}
-
 func assert(areWith state:State, liveGenerator:LiveGeneratorSpy, cells:[SpyCell], file: StaticString = #filePath, line: UInt = #line){
     for cell in cells {
         XCTAssertEqual(liveGenerator.getCell(row: cell.row, col: cell.col), state, file: file, line: line)
