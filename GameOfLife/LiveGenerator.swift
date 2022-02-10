@@ -29,13 +29,16 @@ internal class LiveGenerator {
     func evaluate(row:Int, col:Int){
         let count = neighboursCounter.neighboursCountAt(row:row,col:col)
         if count >= 0 {
-            if count < Eval.underpopulation {
-                die(row: row, col: col)
-            }else if count <= Eval.balanced {
-                live(row: row, col: col)
-            }else if count >= Eval.overpopulation {
-                die(row: row, col: col)
+            if cells[row][col] == .alive{
+                if count < Eval.underpopulation {
+                    die(row: row, col: col)
+                }else if count <= Eval.balanced {
+                    live(row: row, col: col)
+                }else if count >= Eval.overpopulation {
+                    die(row: row, col: col)
+                }
             }
+            
         }
         
     }

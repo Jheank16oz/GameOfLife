@@ -28,11 +28,11 @@ class GameOfLifeTests: XCTestCase {
     
     func test_die_anyLiveCellWithFewerThanTwoLiveNeighboursDies() {
         
-        let alive1 = (row: 0, col: 2, neighboursCount:1)
-        let alive0 = (row: 2, col: 2, neighboursCount:0)
+        let alive1 = (row: 0, col: 2, neighboursCount:1, state: State.alive)
+        let alive0 = (row: 2, col: 2, neighboursCount:0, state: State.alive)
         
         let liveGenerator = makeLiveGenerator(
-            liveCells: [alive1, alive0])
+            initialCells: [alive1, alive0])
         
         liveGenerator.nextGeneration()
         
@@ -49,11 +49,11 @@ class GameOfLifeTests: XCTestCase {
     func test_live_anyLiveCellWithTwoOrThreeLiveNeighboursLives() {
         
         
-        let alive2 = (row: 0, col: 2, neighboursCount:2)
-        let alive3 = (row: 2, col: 2, neighboursCount:3)
+        let alive2 = (row: 0, col: 2, neighboursCount:2, state: State.alive)
+        let alive3 = (row: 2, col: 2, neighboursCount:3, state: State.alive)
         
         let liveGenerator = makeLiveGenerator(
-            liveCells: [alive2, alive3])
+            initialCells: [alive2, alive3])
         liveGenerator.nextGeneration()
         
         
@@ -67,11 +67,11 @@ class GameOfLifeTests: XCTestCase {
     }
     
     func test_die_anyLiveCellWithMoreThanThreeLiveNeighboursDies() {
-        let alive4 = (row: 0, col: 2, neighboursCount:4)
-        let alive5 = (row: 2, col: 2, neighboursCount:5)
+        let alive4 = (row: 0, col: 2, neighboursCount:4, state: State.alive)
+        let alive5 = (row: 2, col: 2, neighboursCount:5, state: State.alive)
         
         let liveGenerator = makeLiveGenerator(
-            liveCells: [alive4, alive5])
+            initialCells: [alive4, alive5])
         
         liveGenerator.nextGeneration()
         
@@ -84,17 +84,35 @@ class GameOfLifeTests: XCTestCase {
         XCTAssertEqual(liveGenerator.getCell(row: alive5.row, col: alive5.col), .death)
     }
     
+    func test_live_anyDeadCellWithThreeLiveBecomesALive() {
+        let cellNC3 = (row: 0, col: 2, neighboursCount:3, state: State.death)
+        
+        let liveGenerator = makeLiveGenerator(
+            initialCells: [cellNC3])
+        
+        liveGenerator.nextGeneration()
+        
+        XCTAssertEqual(liveGenerator.liveCellsCalled, [
+            [cellNC3.row,cellNC3.col]
+        ])
+        
+        XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .alive)
+        XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .alive)
+    }
+    
 }
 
-func makeLiveGenerator(liveCells:[(row: Int, col: Int, neighboursCount: Int)]) -> LiveGeneratorSpy{
+
+// Helpers
+func makeLiveGenerator(initialCells:[(row: Int, col: Int, neighboursCount: Int, state: State)]) -> LiveGeneratorSpy{
     
     let counterSpy = NeighboursCounterSpy()
     
-    counterSpy.setNeighboursCount(neighboursCount: liveCells)
+    counterSpy.setNeighboursCount(neighboursCount: initialCells)
     
     let liveGenerator = LiveGeneratorSpy(cells:seedWith(type: .thereIsNotLife), neighboursCounter:counterSpy)
-    for liveCell in liveCells {
-        liveGenerator.setLiveCell(row: liveCell.row, col: liveCell.col)
+    for cell in initialCells {
+        liveGenerator.setCellState(row: cell.row, col: cell.col,state: cell.state)
     }
 
     return liveGenerator
@@ -113,9 +131,9 @@ func getExpectedIndicesFrom(cells:[[State]]) -> [[Int]]{
 
 class NeighboursCounterSpy: NeighboursCounter{
     var neighBoursCalls = 0
-    var neighboursCount = [(row:Int, col:Int, neighboursCount: Int)]()
+    var neighboursCount = [(row:Int, col:Int, neighboursCount: Int, state: State)]()
     
-    func setNeighboursCount(neighboursCount:[(row:Int,col:Int, neighboursCount: Int)]){
+    func setNeighboursCount(neighboursCount:[(row:Int,col:Int, neighboursCount: Int,state: State)]){
         self.neighboursCount = neighboursCount
     }
     
@@ -160,8 +178,8 @@ class LiveGeneratorSpy:LiveGenerator{
         return cells[row][col]
     }
     
-    func setLiveCell(row: Int, col: Int) {
-        cells[row][col] = .alive
+    func setCellState(row: Int, col: Int, state:State) {
+        cells[row][col] = state
     }
         
         
