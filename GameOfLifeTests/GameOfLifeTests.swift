@@ -12,8 +12,8 @@ class GameOfLifeTests: XCTestCase {
     
     func test_nextGeneration_everyCellShouldBeIterated(){
         let cells = seedWith(type: .thereIsNotLife)
-        let counterSpy = NeighboursCounterSpy()
-        let liveGenerator = LiveGeneratorSpy(cells:cells, neighboursCounter:counterSpy)
+        let counterSpy = NeighborCounterSpy()
+        let liveGenerator = LiveGeneratorSpy(cells:cells, neighborCounter:counterSpy)
         
         liveGenerator.nextGeneration()
         
@@ -22,14 +22,14 @@ class GameOfLifeTests: XCTestCase {
         
         XCTAssertEqual(liveGenerator.evaluations, expectedIndices)
         XCTAssertEqual(liveGenerator.evaluations.count, expectedCalls)
-        XCTAssertEqual(counterSpy.neighBoursCalls, expectedCalls)
+        XCTAssertEqual(counterSpy.neighborCountCalls, expectedCalls)
     }
     
     
-    func test_die_anyLiveCellWithFewerThanTwoLiveNeighboursDies() {
+    func test_die_anyLiveCellWithFewerThanTwoLiveNeighborDies() {
         
-        let alive1 = SpyCell(row: 0, col: 2, neighboursCount:1, state: State.alive)
-        let alive0 = SpyCell(row: 2, col: 2, neighboursCount:0, state: State.alive)
+        let alive1 = SpyCell(row: 0, col: 2, neighborCount:1, state: State.alive)
+        let alive0 = SpyCell(row: 2, col: 2, neighborCount:0, state: State.alive)
         
         let liveGenerator = makeLiveGenerator(
             initialCells: [alive1, alive0])
@@ -46,11 +46,11 @@ class GameOfLifeTests: XCTestCase {
         XCTAssertEqual(liveGenerator.getCell(row: alive0.row, col: alive0.col), .dead)
     }
     
-    func test_live_anyLiveCellWithTwoOrThreeLiveNeighboursLives() {
+    func test_live_anyLiveCellWithTwoOrThreeLiveNeighborLives() {
         
         
-        let alive2 = SpyCell(row: 0, col: 2, neighboursCount:2, state: State.alive)
-        let alive3 = SpyCell(row: 2, col: 2, neighboursCount:3, state: State.alive)
+        let alive2 = SpyCell(row: 0, col: 2, neighborCount:2, state: State.alive)
+        let alive3 = SpyCell(row: 2, col: 2, neighborCount:3, state: State.alive)
         
         let liveGenerator = makeLiveGenerator(
             initialCells: [alive2, alive3])
@@ -66,9 +66,9 @@ class GameOfLifeTests: XCTestCase {
         XCTAssertEqual(liveGenerator.getCell(row: alive3.row, col: alive3.col), .alive)
     }
     
-    func test_die_anyLiveCellWithMoreThanThreeLiveNeighboursDies() {
-        let alive4 = SpyCell(row: 0, col: 2, neighboursCount:4, state: State.alive)
-        let alive5 = SpyCell(row: 2, col: 2, neighboursCount:5, state: State.alive)
+    func test_die_anyLiveCellWithMoreThanThreeLiveNeighborDies() {
+        let alive4 = SpyCell(row: 0, col: 2, neighborCount:4, state: State.alive)
+        let alive5 = SpyCell(row: 2, col: 2, neighborCount:5, state: State.alive)
         
         let liveGenerator = makeLiveGenerator(
             initialCells: [alive4, alive5])
@@ -85,7 +85,7 @@ class GameOfLifeTests: XCTestCase {
     }
     
     func test_live_anyDeadCellWithThreeLiveBecomesALive() {
-        let cellNC3 = SpyCell(row: 0, col: 2, neighboursCount:3, state: State.dead)
+        let cellNC3 = SpyCell(row: 0, col: 2, neighborCount:3, state: State.dead)
         
         let liveGenerator = makeLiveGenerator(
             initialCells: [cellNC3])
@@ -100,8 +100,8 @@ class GameOfLifeTests: XCTestCase {
         XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .alive)
     }
     
-    func test_live_anyDeadCellWithFewerThanThreeLiveNeighbourDontBecomesALive() {
-        let cellNC3 = SpyCell(row: 0, col: 2, neighboursCount:2, state: State.dead)
+    func test_live_anyDeadCellWithFewerThanThreeLiveNeighborDontBecomesALive() {
+        let cellNC3 = SpyCell(row: 0, col: 2, neighborCount:2, state: State.dead)
         
         let liveGenerator = makeLiveGenerator(
             initialCells: [cellNC3])
@@ -114,8 +114,8 @@ class GameOfLifeTests: XCTestCase {
         XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .dead)
     }
     
-    func test_live_anyDeadCellWithMoreThanThreeLiveNeighbourDontStayDeath() {
-        let cellNC3 = SpyCell(row: 0, col: 2, neighboursCount:4, state: State.dead)
+    func test_live_anyDeadCellWithMoreThanThreeLiveNeighborDontStayDeath() {
+        let cellNC3 = SpyCell(row: 0, col: 2, neighborCount:4, state: State.dead)
         
         let liveGenerator = makeLiveGenerator(
             initialCells: [cellNC3])
@@ -134,11 +134,11 @@ class GameOfLifeTests: XCTestCase {
 // Helpers
 func makeLiveGenerator(initialCells:[SpyCell]) -> LiveGeneratorSpy{
     
-    let counterSpy = NeighboursCounterSpy()
+    let counterSpy = NeighborCounterSpy()
     
-    counterSpy.setNeighboursCount(neighboursCount: initialCells)
+    counterSpy.setNeighborCount(neighborCount: initialCells)
     
-    let liveGenerator = LiveGeneratorSpy(cells:seedWith(type: .thereIsNotLife), neighboursCounter:counterSpy)
+    let liveGenerator = LiveGeneratorSpy(cells:seedWith(type: .thereIsNotLife), neighborCounter:counterSpy)
     for cell in initialCells {
         liveGenerator.setCellState(row: cell.row, col: cell.col,state: cell.state)
     }
@@ -157,19 +157,19 @@ func getExpectedIndicesFrom(cells:[[State]]) -> [[Int]]{
     return expectedIndices
 }
 
-class NeighboursCounterSpy: NeighboursCounter{
-    var neighBoursCalls = 0
-    var neighboursCount = [SpyCell]()
+class NeighborCounterSpy: NeighborCounter{
+    var neighborCountCalls = 0
+    var neighborCount = [SpyCell]()
     
-    func setNeighboursCount(neighboursCount:[SpyCell]){
-        self.neighboursCount = neighboursCount
+    func setNeighborCount(neighborCount:[SpyCell]){
+        self.neighborCount = neighborCount
     }
     
-    func neighboursCountAt(row:Int,col:Int) -> Int{
-        neighBoursCalls += 1
-        for neighboursCount in neighboursCount {
-            if row == neighboursCount.row && col == neighboursCount.col {
-                return neighboursCount.neighboursCount
+    func numberOfNeighbors(row:Int,col:Int) -> Int{
+        neighborCountCalls += 1
+        for neighborCount in neighborCount {
+            if row == neighborCount.row && col == neighborCount.col {
+                return neighborCount.neighborCount
             }
         }
         return -1
@@ -181,7 +181,7 @@ class NeighboursCounterSpy: NeighboursCounter{
 struct SpyCell{
     let row:Int
     let col:Int
-    let neighboursCount:Int
+    let neighborCount:Int
     let state: State
     
     func asCell() ->Cell{

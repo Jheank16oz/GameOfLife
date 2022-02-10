@@ -11,12 +11,12 @@ internal class LiveGenerator {
 
     
     
-    let neighboursCounter:NeighboursCounter
+    let neighborCounter:NeighborCounter
     internal var cells:[[State]]
     
-    init( cells: [[State]], neighboursCounter: NeighboursCounter){
+    init( cells: [[State]], neighborCounter: NeighborCounter){
         self.cells = cells
-        self.neighboursCounter = neighboursCounter
+        self.neighborCounter = neighborCounter
     }
   
     func nextGeneration(){
@@ -28,7 +28,7 @@ internal class LiveGenerator {
     }
 
     func evaluate(row:Int, col:Int){
-        let count = neighboursCounter.neighboursCountAt(row:row,col:col)
+        let count = neighborCounter.numberOfNeighbors(row:row,col:col)
         if count >= 0 {
             let currentCell = Cell(row: row, col: col)
             if isAlive(cell:currentCell) {
