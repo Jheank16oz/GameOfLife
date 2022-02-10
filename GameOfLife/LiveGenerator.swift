@@ -41,7 +41,9 @@ internal class LiveGenerator {
                     die(cell:currentCell)
                 }
             }else if isDied(cell:currentCell){
-                live(cell:currentCell)
+                if Rule.breed(count:count){
+                    live(cell:currentCell)
+                }
             }
             
         }
@@ -55,7 +57,7 @@ internal class LiveGenerator {
     
     func isDied(cell:Cell) -> Bool{
         let cell = cells[cell.row][cell.col]
-        return cell == .alive
+        return cell == .died
     }
     
     func die(cell:Cell){
@@ -70,6 +72,7 @@ internal class LiveGenerator {
         static let underpopulation = 2
         static let balanced = 3
         static let overpopulation = 4
+        static let breed = 3
         
         static func isUnderPopulation(count: Int) -> Bool{
             return count < underpopulation
@@ -81,6 +84,10 @@ internal class LiveGenerator {
         
         static func isOverPopulation(count: Int) -> Bool{
             return count >= overpopulation
+        }
+        
+        static func breed(count: Int) -> Bool{
+            return count == breed
         }
     }
     
