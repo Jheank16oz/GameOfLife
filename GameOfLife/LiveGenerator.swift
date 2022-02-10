@@ -13,7 +13,6 @@ internal class LiveGenerator {
     
     let neighboursCounter:NeighboursCounter
     internal var cells:[[State]]
-    let cellIndex = 0
     
     init( cells: [[State]], neighboursCounter: NeighboursCounter){
         self.cells = cells
