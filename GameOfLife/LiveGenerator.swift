@@ -8,6 +8,8 @@
 import Foundation
 
 internal class LiveGenerator {
+
+    
     
     let neighboursCounter:NeighboursCounter
     internal var cells:[[State]]
@@ -25,17 +27,18 @@ internal class LiveGenerator {
             }
         }
     }
-    
+
     func evaluate(row:Int, col:Int){
         let count = neighboursCounter.neighboursCountAt(row:row,col:col)
         if count >= 0 {
-            if cells[row][col] == .alive{
-                if count < Rule.underpopulation {
-                    die(row: row, col: col)
-                }else if count <= Rule.balanced {
-                    live(row: row, col: col)
-                }else if count >= Rule.overpopulation {
-                    die(row: row, col: col)
+            let currentCell = Cell(row: row, col: col)
+            if isAlive(cell:currentCell) {
+                if Rule.isUnderPopulation(count: count) {
+                    die(cell:currentCell)
+                }else if Rule.isBalanced(count: count) {
+                    live(cell:currentCell)
+                }else if Rule.isOverPopulation(count: count) {
+                    die(cell:currentCell)
                 }
             }
             
@@ -43,20 +46,42 @@ internal class LiveGenerator {
         
     }
     
-    func die(row: Int, col: Int){
-        cells[row][col] = .death
+    func isAlive(cell:Cell) -> Bool{
+    let cell = cells[cell.row][cell.col]
+        return cell == .alive
     }
     
-    func live(row: Int, col: Int){
-        cells[row][col] = .alive
+    func die(cell:Cell){
+        cells[cell.row][cell.col] = .death
+    }
+    
+    func live(cell:Cell){
+        cells[cell.row][cell.col] = .alive
     }
     
     struct Rule{
         static let underpopulation = 2
         static let balanced = 3
         static let overpopulation = 4
+        
+        static func isUnderPopulation(count: Int) -> Bool{
+            return count < underpopulation
+        }
+        
+        static func isBalanced(count: Int) -> Bool{
+            return count <= balanced
+        }
+        
+        static func isOverPopulation(count: Int) -> Bool{
+            return count >= overpopulation
+        }
     }
     
+}
+
+public struct Cell:Equatable {
+    let row:Int
+    let col:Int
 }
 
 
