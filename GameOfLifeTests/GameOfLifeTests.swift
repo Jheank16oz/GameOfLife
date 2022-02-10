@@ -42,8 +42,8 @@ class GameOfLifeTests: XCTestCase {
             alive0.asCell()
         ])
         
-        XCTAssertEqual(liveGenerator.getCell(row: alive1.row, col: alive1.col), .died)
-        XCTAssertEqual(liveGenerator.getCell(row: alive0.row, col: alive0.col), .died)
+        XCTAssertEqual(liveGenerator.getCell(row: alive1.row, col: alive1.col), .dead)
+        XCTAssertEqual(liveGenerator.getCell(row: alive0.row, col: alive0.col), .dead)
     }
     
     func test_live_anyLiveCellWithTwoOrThreeLiveNeighboursLives() {
@@ -80,12 +80,12 @@ class GameOfLifeTests: XCTestCase {
             alive5.asCell()
         ])
         
-        XCTAssertEqual(liveGenerator.getCell(row: alive4.row, col: alive4.col), .died)
-        XCTAssertEqual(liveGenerator.getCell(row: alive5.row, col: alive5.col), .died)
+        XCTAssertEqual(liveGenerator.getCell(row: alive4.row, col: alive4.col), .dead)
+        XCTAssertEqual(liveGenerator.getCell(row: alive5.row, col: alive5.col), .dead)
     }
     
     func test_live_anyDeadCellWithThreeLiveBecomesALive() {
-        let cellNC3 = SpyCell(row: 0, col: 2, neighboursCount:3, state: State.died)
+        let cellNC3 = SpyCell(row: 0, col: 2, neighboursCount:3, state: State.dead)
         
         let liveGenerator = makeLiveGenerator(
             initialCells: [cellNC3])
@@ -101,7 +101,7 @@ class GameOfLifeTests: XCTestCase {
     }
     
     func test_live_anyDeadCellWithFewerThanThreeLiveNeighbourDontBecomesALive() {
-        let cellNC3 = SpyCell(row: 0, col: 2, neighboursCount:2, state: State.died)
+        let cellNC3 = SpyCell(row: 0, col: 2, neighboursCount:2, state: State.dead)
         
         let liveGenerator = makeLiveGenerator(
             initialCells: [cellNC3])
@@ -110,12 +110,12 @@ class GameOfLifeTests: XCTestCase {
         
         XCTAssertEqual(liveGenerator.liveCellsCalled, [])
         
-        XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .died)
-        XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .died)
+        XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .dead)
+        XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .dead)
     }
     
     func test_live_anyDeadCellWithMoreThanThreeLiveNeighbourDontStayDeath() {
-        let cellNC3 = SpyCell(row: 0, col: 2, neighboursCount:4, state: State.died)
+        let cellNC3 = SpyCell(row: 0, col: 2, neighboursCount:4, state: State.dead)
         
         let liveGenerator = makeLiveGenerator(
             initialCells: [cellNC3])
@@ -124,8 +124,8 @@ class GameOfLifeTests: XCTestCase {
         
         XCTAssertEqual(liveGenerator.liveCellsCalled, [])
         
-        XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .died)
-        XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .died)
+        XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .dead)
+        XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .dead)
     }
     
 }
@@ -194,7 +194,6 @@ class LiveGeneratorSpy:LiveGenerator{
     var evaluations = [[Int]]()
     var dieCellsCalled = [Cell]()
     var liveCellsCalled = [Cell]()
-    var liveCells = [[Int]]()
     
     override func evaluate(row: Int, col: Int) {
         super.evaluate(row: row, col: col)
@@ -212,8 +211,6 @@ class LiveGeneratorSpy:LiveGenerator{
     }
     
     func getCell(row: Int, col: Int) -> State{
-        print(cells)
-        print("\n")
         return cells[row][col]
     }
     
@@ -233,11 +230,11 @@ func seedWith(type: HelperSeedType) -> [[State]]{
     switch type{
     case .thereIsNotLife:
         return[
-            [.died, .died, .died, .died],
-            [.died, .died, .died, .died],
-            [.died, .died, .died, .died],
-            [.died, .died, .died, .died],
-            [.died, .died, .died, .died]]
+            [.dead, .dead, .dead, .dead],
+            [.dead, .dead, .dead, .dead],
+            [.dead, .dead, .dead, .dead],
+            [.dead, .dead, .dead, .dead],
+            [.dead, .dead, .dead, .dead]]
     }
     return [[]]
 }
