@@ -42,8 +42,7 @@ class GameOfLifeTests: XCTestCase {
             alive0.asCell()
         ])
         
-        XCTAssertEqual(liveGenerator.getCell(row: alive1.row, col: alive1.col), .dead)
-        XCTAssertEqual(liveGenerator.getCell(row: alive0.row, col: alive0.col), .dead)
+        assert(areWith: .dead, liveGenerator: liveGenerator, cells: [alive1, alive0])
     }
     
     func test_live_anyLiveCellWithTwoOrThreeLiveNeighborLives() {
@@ -62,8 +61,7 @@ class GameOfLifeTests: XCTestCase {
             alive3.asCell()
         ])
         
-        XCTAssertEqual(liveGenerator.getCell(row: alive2.row, col: alive2.col), .alive)
-        XCTAssertEqual(liveGenerator.getCell(row: alive3.row, col: alive3.col), .alive)
+        assert(areWith: .alive, liveGenerator: liveGenerator, cells: [alive2, alive3])
     }
     
     func test_die_anyLiveCellWithMoreThanThreeLiveNeighborDies() {
@@ -80,8 +78,7 @@ class GameOfLifeTests: XCTestCase {
             alive5.asCell()
         ])
         
-        XCTAssertEqual(liveGenerator.getCell(row: alive4.row, col: alive4.col), .dead)
-        XCTAssertEqual(liveGenerator.getCell(row: alive5.row, col: alive5.col), .dead)
+        assert(areWith: .dead, liveGenerator: liveGenerator, cells: [alive4, alive5])
     }
     
     func test_live_anyDeadCellWithThreeLiveBecomesALive() {
@@ -96,8 +93,7 @@ class GameOfLifeTests: XCTestCase {
             cellNC3.asCell()
         ])
         
-        XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .alive)
-        XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .alive)
+        assert(areWith: .alive, liveGenerator: liveGenerator, cells: [cellNC3])
     }
     
     func test_live_anyDeadCellWithFewerThanThreeLiveNeighborDontBecomesALive() {
@@ -110,7 +106,8 @@ class GameOfLifeTests: XCTestCase {
         
         liveGenerator.nextGeneration()
         
-        assertDead(liveGenerator: liveGenerator, initialCells: [cellNC3, cellNC1, cellNC0])
+        XCTAssertEqual(liveGenerator.liveCellsCalled, [])
+        assert(areWith: .dead, liveGenerator: liveGenerator, cells: [cellNC3, cellNC1, cellNC0])
     }
     
     func test_live_anyDeadCellWithMoreThanThreeLiveNeighborStayDeath() {
@@ -123,7 +120,9 @@ class GameOfLifeTests: XCTestCase {
         
         liveGenerator.nextGeneration()
         
-        assertDead(liveGenerator: liveGenerator, initialCells: [cellNC4, cellNC5, cellNC6])
+        XCTAssertEqual(liveGenerator.liveCellsCalled, [])
+        
+        assert(areWith: .dead, liveGenerator: liveGenerator, cells: [cellNC4, cellNC5, cellNC6])
     }
     
 }
@@ -132,10 +131,16 @@ class GameOfLifeTests: XCTestCase {
 // Helpers
 
 func assertDead(liveGenerator:LiveGeneratorSpy, initialCells:[SpyCell], file: StaticString = #filePath, line: UInt = #line){
-    XCTAssertEqual(liveGenerator.liveCellsCalled, [], file: file, line: line)
+    
         
     for cell in initialCells {
         XCTAssertEqual(liveGenerator.getCell(row: cell.row, col: cell.col), .dead, file: file, line: line)
+    }
+}
+
+func assert(areWith state:State, liveGenerator:LiveGeneratorSpy, cells:[SpyCell], file: StaticString = #filePath, line: UInt = #line){
+    for cell in cells {
+        XCTAssertEqual(liveGenerator.getCell(row: cell.row, col: cell.col), state, file: file, line: line)
     }
 }
 
