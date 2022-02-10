@@ -42,8 +42,8 @@ class GameOfLifeTests: XCTestCase {
             alive0.asCell()
         ])
         
-        XCTAssertEqual(liveGenerator.getCell(row: alive1.row, col: alive1.col), .death)
-        XCTAssertEqual(liveGenerator.getCell(row: alive0.row, col: alive0.col), .death)
+        XCTAssertEqual(liveGenerator.getCell(row: alive1.row, col: alive1.col), .died)
+        XCTAssertEqual(liveGenerator.getCell(row: alive0.row, col: alive0.col), .died)
     }
     
     func test_live_anyLiveCellWithTwoOrThreeLiveNeighboursLives() {
@@ -80,24 +80,24 @@ class GameOfLifeTests: XCTestCase {
             alive5.asCell()
         ])
         
-        XCTAssertEqual(liveGenerator.getCell(row: alive4.row, col: alive4.col), .death)
-        XCTAssertEqual(liveGenerator.getCell(row: alive5.row, col: alive5.col), .death)
+        XCTAssertEqual(liveGenerator.getCell(row: alive4.row, col: alive4.col), .died)
+        XCTAssertEqual(liveGenerator.getCell(row: alive5.row, col: alive5.col), .died)
     }
     
     func test_live_anyDeadCellWithThreeLiveBecomesALive() {
-        let cellNC3 = SpyCell(row: 0, col: 2, neighboursCount:3, state: State.death)
+        let cellNC3 = SpyCell(row: 0, col: 2, neighboursCount:3, state: State.died)
         
         let liveGenerator = makeLiveGenerator(
             initialCells: [cellNC3])
         
         liveGenerator.nextGeneration()
         
-       /* XCTAssertEqual(liveGenerator.liveCellsCalled, [
-            [cellNC3.row,cellNC3.col]
+        XCTAssertEqual(liveGenerator.liveCellsCalled, [
+            cellNC3.asCell()
         ])
         
         XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .alive)
-        XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .alive)*/
+        XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .alive)
     }
     
 }
@@ -205,11 +205,11 @@ func seedWith(type: HelperSeedType) -> [[State]]{
     switch type{
     case .thereIsNotLife:
         return[
-            [.death, .death, .death, .death],
-            [.death, .death, .death, .death],
-            [.death, .death, .death, .death],
-            [.death, .death, .death, .death],
-            [.death, .death, .death, .death]]
+            [.died, .died, .died, .died],
+            [.died, .died, .died, .died],
+            [.died, .died, .died, .died],
+            [.died, .died, .died, .died],
+            [.died, .died, .died, .died]]
     }
     return [[]]
 }

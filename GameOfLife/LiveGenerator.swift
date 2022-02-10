@@ -40,6 +40,8 @@ internal class LiveGenerator {
                 }else if Rule.isOverPopulation(count: count) {
                     die(cell:currentCell)
                 }
+            }else if isDied(cell:currentCell){
+                live(cell:currentCell)
             }
             
         }
@@ -47,12 +49,17 @@ internal class LiveGenerator {
     }
     
     func isAlive(cell:Cell) -> Bool{
-    let cell = cells[cell.row][cell.col]
+        let cell = cells[cell.row][cell.col]
+        return cell == .alive
+    }
+    
+    func isDied(cell:Cell) -> Bool{
+        let cell = cells[cell.row][cell.col]
         return cell == .alive
     }
     
     func die(cell:Cell){
-        cells[cell.row][cell.col] = .death
+        cells[cell.row][cell.col] = .died
     }
     
     func live(cell:Cell){
@@ -86,7 +93,7 @@ public struct Cell:Equatable {
 
 
 enum State{
-    case death
+    case died
     case alive
 }
 
