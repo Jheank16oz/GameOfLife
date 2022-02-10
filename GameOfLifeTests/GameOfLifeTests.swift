@@ -102,36 +102,43 @@ class GameOfLifeTests: XCTestCase {
     
     func test_live_anyDeadCellWithFewerThanThreeLiveNeighborDontBecomesALive() {
         let cellNC3 = SpyCell(row: 0, col: 2, neighborCount:2, state: State.dead)
+        let cellNC1 = SpyCell(row: 1, col: 1, neighborCount:1, state: State.dead)
+        let cellNC0 = SpyCell(row: 2, col: 2, neighborCount:0, state: State.dead)
         
         let liveGenerator = makeLiveGenerator(
-            initialCells: [cellNC3])
+            initialCells: [cellNC3, cellNC1, cellNC0])
         
         liveGenerator.nextGeneration()
         
-        XCTAssertEqual(liveGenerator.liveCellsCalled, [])
-        
-        XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .dead)
-        XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .dead)
+        assertDead(liveGenerator: liveGenerator, initialCells: [cellNC3, cellNC1, cellNC0])
     }
     
-    func test_live_anyDeadCellWithMoreThanThreeLiveNeighborDontStayDeath() {
-        let cellNC3 = SpyCell(row: 0, col: 2, neighborCount:4, state: State.dead)
+    func test_live_anyDeadCellWithMoreThanThreeLiveNeighborStayDeath() {
+        let cellNC4 = SpyCell(row: 0, col: 2, neighborCount:4, state: State.dead)
+        let cellNC5 = SpyCell(row: 1, col: 1, neighborCount:5, state: State.dead)
+        let cellNC6 = SpyCell(row: 2, col: 2, neighborCount:6, state: State.dead)
         
         let liveGenerator = makeLiveGenerator(
-            initialCells: [cellNC3])
+            initialCells: [cellNC4, cellNC5,cellNC6])
         
         liveGenerator.nextGeneration()
         
-        XCTAssertEqual(liveGenerator.liveCellsCalled, [])
-        
-        XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .dead)
-        XCTAssertEqual(liveGenerator.getCell(row: cellNC3.row, col: cellNC3.col), .dead)
+        assertDead(liveGenerator: liveGenerator, initialCells: [cellNC4, cellNC5, cellNC6])
     }
     
 }
 
 
 // Helpers
+
+func assertDead(liveGenerator:LiveGeneratorSpy, initialCells:[SpyCell], file: StaticString = #filePath, line: UInt = #line){
+    XCTAssertEqual(liveGenerator.liveCellsCalled, [], file: file, line: line)
+        
+    for cell in initialCells {
+        XCTAssertEqual(liveGenerator.getCell(row: cell.row, col: cell.col), .dead)
+    }
+}
+
 func makeLiveGenerator(initialCells:[SpyCell]) -> LiveGeneratorSpy{
     
     let counterSpy = NeighborCounterSpy()
