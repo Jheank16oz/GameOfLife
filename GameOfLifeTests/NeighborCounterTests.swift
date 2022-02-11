@@ -83,7 +83,7 @@ class NeighborCounterTests: XCTestCase {
     
     func makePowerSeed(with neighborCount: Int) -> (counter:NeighborCounter, seeds:[[[State]]]) {
         let counter = NeighborCounter()
-        let seeds = Seed.generate(at:referenceCell, neighborCount:1)
+        let seeds = Seed.generate(at:referenceCell, neighborCount:neighborCount)
         return (counter, seeds)
     }
     
@@ -93,14 +93,19 @@ class NeighborCounterTests: XCTestCase {
 
 final class Seed {
     static func generate(at cell:Cell,neighborCount:Int) -> [[[State]]]{
+        let sets = setsOf(count:neighborCount)
+        var seeds = [[[State]]]()
         
-        let cells:[[State]] = [
-        [.dead, .dead, .dead],
-        [.dead, .dead, .dead],
-        [.dead, .alive, .dead],
-        [.dead, .dead, .dead],
-        [.dead, .dead, .dead]]
+        for cset in sets {
+            var currentSeed = emptySeed
+            currentSeed.setAlive(aliveCells: cset)
+            seeds.append(currentSeed)
+        }
         
+        return seeds
+    }
+    
+    static func setsOf(count:Int) -> [[Cell]]{
         let cLeft = Cell(row: 2, col: 0)
         let cRight = Cell(row: 2, col: 2)
         let cTop = Cell(row: 1, col: 1)
@@ -111,31 +116,7 @@ final class Seed {
         let cRightBottom = Cell(row: 3, col: 2)
         
         let neighborCellsSet = [cLeft, cRight, cTop, cBottom, cLeftTop, cLeftBottom, cRightTop, cRightBottom]
-        let sets = powerSet(set:neighborCellsSet).filter{ $0.count == neighborCount}
-        var seeds = [[[State]]]()
-        
-        for cset in sets {
-            var currentSeed = cells
-            currentSeed.setAlive(aliveCells: cset)
-            seeds.append(currentSeed)
-            printSeed(seed:currentSeed)
-        }
-        
-        return seeds
-    }
-    
-    static func printSeed(seed:[[State]]){
-        var value = ""
-        for (_,row) in seed.enumerated() {
-            var rowString = ""
-            for (_,col) in row.enumerated() {
-                //let state = col == State.alive ? "🕷" : "🕸"
-                let state = col == State.alive ? "❤️" : "🤍"
-                rowString += "\(state)"
-            }
-            value += "\(rowString)\n"
-        }
-        print("\(value)")
+        return powerSet(set:neighborCellsSet).filter{ $0.count == count}
     }
     
     
@@ -154,6 +135,14 @@ final class Seed {
         }
         return powerSet
     }
+    
+    static let emptySeed:[[State]] = [
+        [.dead, .dead, .dead],
+        [.dead, .dead, .dead],
+        [.dead, .alive, .dead],
+        [.dead, .dead, .dead],
+        [.dead, .dead, .dead]]
+        
 }
 
 private extension Array where Element == [State] {
