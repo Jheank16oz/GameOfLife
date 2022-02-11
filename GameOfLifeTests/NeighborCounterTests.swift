@@ -16,15 +16,63 @@ class NeighborCounterTests: XCTestCase {
     func test_numberOfNeighbors_anyCellWithZeroNeighborReturnZero() {
         let neighborCount = 0
         let powerSeed = makePowerSeed(with: neighborCount)
-        assertCount(powerSeed: powerSeed, count: 0)
+        assertCount(powerSeed: powerSeed, count: neighborCount)
         
     }
     
     func test_numberOfNeighbors_anyCellWithOneNeighborReturnOne() {
         let neighborCount = 1
         let powerSeed = makePowerSeed(with: neighborCount)
-        assertCount(powerSeed: powerSeed, count: 1)
+        assertCount(powerSeed: powerSeed, count: neighborCount)
     }
+    
+    func test_numberOfNeighbors_anyCellWithTwoNeighborReturnTwo() {
+        let neighborCount = 2
+        let powerSeed = makePowerSeed(with: neighborCount)
+        assertCount(powerSeed: powerSeed, count: neighborCount)
+        
+    }
+    
+    func test_numberOfNeighbors_anyCellWithThreeNeighborReturnThree() {
+        let neighborCount = 3
+        let powerSeed = makePowerSeed(with: neighborCount)
+        assertCount(powerSeed: powerSeed, count: neighborCount)
+    }
+    
+    func test_numberOfNeighbors_anyCellWithFourNeighborReturnFour() {
+        let neighborCount = 4
+        let powerSeed = makePowerSeed(with: neighborCount)
+        assertCount(powerSeed: powerSeed, count: neighborCount)
+        
+    }
+    
+    func test_numberOfNeighbors_anyCellWithFiveNeighborReturnFive() {
+        let neighborCount = 5
+        let powerSeed = makePowerSeed(with: neighborCount)
+        assertCount(powerSeed: powerSeed, count: neighborCount)
+    }
+    
+    func test_numberOfNeighbors_anyCellWithSixNeighborReturnSix() {
+        let neighborCount = 6
+        let powerSeed = makePowerSeed(with: neighborCount)
+        assertCount(powerSeed: powerSeed, count: neighborCount)
+        
+    }
+    
+    func test_numberOfNeighbors_anyCellWithSevenNeighborReturnSeven() {
+        let neighborCount = 7
+        let powerSeed = makePowerSeed(with: neighborCount)
+        assertCount(powerSeed: powerSeed, count: neighborCount)
+    }
+    
+    func test_numberOfNeighbors_anyCellWithEightNeighborReturnEight() {
+        let neighborCount = 8
+        let powerSeed = makePowerSeed(with: neighborCount)
+        assertCount(powerSeed: powerSeed, count: neighborCount)
+        
+    }
+    
+    
     
     func assertCount(powerSeed s:(counter:NeighborCounter, seeds:[[[State]]]), count:Int, file: StaticString = #filePath, line: UInt = #line){
         for seed in s.seeds{
@@ -78,9 +126,9 @@ final class Seed {
     
     static func printSeed(seed:[[State]]){
         var value = ""
-        for (index,row) in seed.enumerated() {
+        for (_,row) in seed.enumerated() {
             var rowString = ""
-            for (indexCol,col) in row.enumerated() {
+            for (_,col) in row.enumerated() {
                 //let state = col == State.alive ? "🕷" : "🕸"
                 let state = col == State.alive ? "❤️" : "🤍"
                 rowString += "\(state)"
