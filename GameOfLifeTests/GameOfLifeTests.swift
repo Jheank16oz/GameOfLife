@@ -169,10 +169,10 @@ class NeighborCounterSpy: NeighborCounter{
         self.neighborCount = neighborCount
     }
     
-    func numberOfNeighbors(row:Int,col:Int) -> Int{
+    override func numberOfNeighbors(of cell:Cell, in cells:[[State]]) -> Int{
         neighborCountCalls += 1
         for neighborCount in neighborCount {
-            if row == neighborCount.row && col == neighborCount.col {
+            if cell.row == neighborCount.row && cell.col == neighborCount.col {
                 return neighborCount.neighborCount
             }
         }
@@ -193,7 +193,7 @@ struct SpyCell{
     }
 }
 
-class LiveGeneratorSpy:LiveGenerator{
+class LiveGeneratorSpy:GameOfLife{
     
     var evaluations = [[Int]]()
     var dieCellsCalled = [Cell]()

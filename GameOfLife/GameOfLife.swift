@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal class LiveGenerator {
+internal class GameOfLife {
 
     
     
@@ -28,9 +28,9 @@ internal class LiveGenerator {
     }
 
     func evaluate(row:Int, col:Int){
-        let count = neighborCounter.numberOfNeighbors(row:row,col:col)
+        let currentCell = Cell(row: row, col: col)
+        let count = neighborCounter.numberOfNeighbors(of:currentCell,in:[[State]]())
         if count >= 0 {
-            let currentCell = Cell(row: row, col: col)
             if isAlive(cell:currentCell) {
                 if Rule.isUnderPopulation(count: count) {
                     die(cell:currentCell)

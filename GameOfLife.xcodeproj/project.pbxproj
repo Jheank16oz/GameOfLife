@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3FDABD2C27B5DA8300D78E8A /* NeighborCounterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDABD2B27B5DA8300D78E8A /* NeighborCounterTests.swift */; };
 		3FE9465227B1B73D00FF24ED /* GameOfLife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9464927B1B73C00FF24ED /* GameOfLife.framework */; };
 		3FE9465727B1B73D00FF24ED /* GameOfLifeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE9465627B1B73D00FF24ED /* GameOfLifeTests.swift */; };
 		3FE9465827B1B73D00FF24ED /* GameOfLife.h in Headers */ = {isa = PBXBuildFile; fileRef = 3FE9464C27B1B73C00FF24ED /* GameOfLife.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3FE9466227B1E21600FF24ED /* LiveGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE9466127B1E21600FF24ED /* LiveGenerator.swift */; };
+		3FE9466227B1E21600FF24ED /* GameOfLife.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE9466127B1E21600FF24ED /* GameOfLife.swift */; };
 		3FF0E7F827B2E6BE00BE48B9 /* NeighborCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF0E7F727B2E6BE00BE48B9 /* NeighborCounter.swift */; };
 /* End PBXBuildFile section */
 
@@ -25,11 +26,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3FDABD2B27B5DA8300D78E8A /* NeighborCounterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeighborCounterTests.swift; sourceTree = "<group>"; };
 		3FE9464927B1B73C00FF24ED /* GameOfLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GameOfLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FE9464C27B1B73C00FF24ED /* GameOfLife.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameOfLife.h; sourceTree = "<group>"; };
 		3FE9465127B1B73D00FF24ED /* GameOfLifeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameOfLifeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FE9465627B1B73D00FF24ED /* GameOfLifeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOfLifeTests.swift; sourceTree = "<group>"; };
-		3FE9466127B1E21600FF24ED /* LiveGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveGenerator.swift; sourceTree = "<group>"; };
+		3FE9466127B1E21600FF24ED /* GameOfLife.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOfLife.swift; sourceTree = "<group>"; };
 		3FF0E7F727B2E6BE00BE48B9 /* NeighborCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeighborCounter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,7 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				3FE9464C27B1B73C00FF24ED /* GameOfLife.h */,
-				3FE9466127B1E21600FF24ED /* LiveGenerator.swift */,
+				3FE9466127B1E21600FF24ED /* GameOfLife.swift */,
 				3FF0E7F727B2E6BE00BE48B9 /* NeighborCounter.swift */,
 			);
 			path = GameOfLife;
@@ -84,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				3FE9465627B1B73D00FF24ED /* GameOfLifeTests.swift */,
+				3FDABD2B27B5DA8300D78E8A /* NeighborCounterTests.swift */,
 			);
 			path = GameOfLifeTests;
 			sourceTree = "<group>";
@@ -199,7 +202,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FF0E7F827B2E6BE00BE48B9 /* NeighborCounter.swift in Sources */,
-				3FE9466227B1E21600FF24ED /* LiveGenerator.swift in Sources */,
+				3FE9466227B1E21600FF24ED /* GameOfLife.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,6 +210,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FDABD2C27B5DA8300D78E8A /* NeighborCounterTests.swift in Sources */,
 				3FE9465727B1B73D00FF24ED /* GameOfLifeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

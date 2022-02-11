@@ -10,7 +10,10 @@ import Foundation
 import Foundation
 
 
-protocol NeighborCounter {
+class NeighborCounter {
     
-    func numberOfNeighbors(row:Int,col:Int) -> Int
+    func numberOfNeighbors(of cell:Cell,in cells:[[State]]) -> Int {
+    
+      return 0
+    }
 }
