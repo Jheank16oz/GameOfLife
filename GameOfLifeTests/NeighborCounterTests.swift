@@ -14,22 +14,29 @@ class NeighborCounterTests: XCTestCase {
 
     let referenceCell = Cell(row: 2, col: 1)
     func test_numberOfNeighbors_anyCellWithZeroNeighborReturnZero() {
-        let counter = NeighborCounter()
-        
-        for seed in Seed.generate(at:referenceCell, neighborCount:0){
-            let count = counter.numberOfNeighbors(of:referenceCell,in: seed)
-            XCTAssertEqual(count, 0)
-        }
+        let neighborCount = 0
+        let powerSeed = makePowerSeed(with: neighborCount)
+        assertCount(powerSeed: powerSeed, count: 0)
         
     }
     
     func test_numberOfNeighbors_anyCellWithOneNeighborReturnOne() {
+        let neighborCount = 1
+        let powerSeed = makePowerSeed(with: neighborCount)
+        assertCount(powerSeed: powerSeed, count: 1)
+    }
+    
+    func assertCount(powerSeed s:(counter:NeighborCounter, seeds:[[[State]]]), count:Int, file: StaticString = #filePath, line: UInt = #line){
+        for seed in s.seeds{
+            let count = s.counter.numberOfNeighbors(of:referenceCell,in: seed)
+            XCTAssertEqual(count, count, file: file, line: line)
+        }
+    }
+    
+    func makePowerSeed(with neighborCount: Int) -> (counter:NeighborCounter, seeds:[[[State]]]) {
         let counter = NeighborCounter()
         let seeds = Seed.generate(at:referenceCell, neighborCount:1)
-        for seed in seeds{
-            let count = counter.numberOfNeighbors(of:referenceCell,in: seed)
-            XCTAssertEqual(count, 1)
-        }
+        return (counter, seeds)
     }
     
 }
