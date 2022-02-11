@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3FACFE6727B6E467004A7C98 /* Tick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FACFE6627B6E467004A7C98 /* Tick.swift */; };
+		3FACFE6A27B6E4B6004A7C98 /* TickTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FACFE6827B6E4B2004A7C98 /* TickTests.swift */; };
 		3FDABD2C27B5DA8300D78E8A /* NeighborCounterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDABD2B27B5DA8300D78E8A /* NeighborCounterTests.swift */; };
 		3FDABD2E27B6A6FE00D78E8A /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDABD2D27B6A6FE00D78E8A /* Rule.swift */; };
 		3FE9465227B1B73D00FF24ED /* GameOfLife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9464927B1B73C00FF24ED /* GameOfLife.framework */; };
@@ -27,6 +29,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3FACFE6627B6E467004A7C98 /* Tick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tick.swift; sourceTree = "<group>"; };
+		3FACFE6827B6E4B2004A7C98 /* TickTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickTests.swift; sourceTree = "<group>"; };
 		3FDABD2B27B5DA8300D78E8A /* NeighborCounterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeighborCounterTests.swift; sourceTree = "<group>"; };
 		3FDABD2D27B6A6FE00D78E8A /* Rule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
 		3FE9464927B1B73C00FF24ED /* GameOfLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GameOfLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,6 +85,7 @@
 				3FE9466127B1E21600FF24ED /* GameOfLife.swift */,
 				3FF0E7F727B2E6BE00BE48B9 /* NeighborCounter.swift */,
 				3FDABD2D27B6A6FE00D78E8A /* Rule.swift */,
+				3FACFE6627B6E467004A7C98 /* Tick.swift */,
 			);
 			path = GameOfLife;
 			sourceTree = "<group>";
@@ -88,6 +93,7 @@
 		3FE9465527B1B73D00FF24ED /* GameOfLifeTests */ = {
 			isa = PBXGroup;
 			children = (
+				3FACFE6827B6E4B2004A7C98 /* TickTests.swift */,
 				3FE9465627B1B73D00FF24ED /* GameOfLifeTests.swift */,
 				3FDABD2B27B5DA8300D78E8A /* NeighborCounterTests.swift */,
 			);
@@ -204,6 +210,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FACFE6727B6E467004A7C98 /* Tick.swift in Sources */,
 				3FDABD2E27B6A6FE00D78E8A /* Rule.swift in Sources */,
 				3FF0E7F827B2E6BE00BE48B9 /* NeighborCounter.swift in Sources */,
 				3FE9466227B1E21600FF24ED /* GameOfLife.swift in Sources */,
@@ -216,6 +223,7 @@
 			files = (
 				3FDABD2C27B5DA8300D78E8A /* NeighborCounterTests.swift in Sources */,
 				3FE9465727B1B73D00FF24ED /* GameOfLifeTests.swift in Sources */,
+				3FACFE6A27B6E4B6004A7C98 /* TickTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

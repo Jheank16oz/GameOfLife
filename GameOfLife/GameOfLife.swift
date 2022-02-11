@@ -13,10 +13,12 @@ internal class GameOfLife {
     
     private let neighborCounter:NeighborCounter
     internal var cells:[[State]]
+    let update:()->Void
     
-    init( cells: [[State]], neighborCounter: NeighborCounter){
+    init(cells: [[State]], neighborCounter: NeighborCounter, update:@escaping ()->Void = { }){
         self.cells = cells
         self.neighborCounter = neighborCounter
+        self.update = update
     }
   
     func nextGeneration(){
@@ -25,6 +27,7 @@ internal class GameOfLife {
                 evaluate(row: indexRow, col: indexCol)
             }
         }
+        update()
     }
 
     internal func evaluate(row:Int, col:Int){

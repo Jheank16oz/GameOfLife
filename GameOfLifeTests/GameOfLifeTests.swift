@@ -125,6 +125,18 @@ class GameOfLifeTests: XCTestCase {
         assert(areWith: .dead, liveGenerator: liveGenerator, cells: [cellNC4, cellNC5, cellNC6])
     }
     
+    func test_nextGeneration_everyNextGenerationUpdates(){
+        var updates = 0
+        let life = GameOfLife(cells: Seed.emptySeed, neighborCounter: NeighborCounter(), update: {
+            updates += 1
+        })
+        
+        for _ in 1...10 {
+            life.nextGeneration()
+        }
+        XCTAssertEqual(updates, 10)
+    }
+    
 }
 
 
@@ -194,7 +206,6 @@ struct SpyCell{
 }
 
 class LiveGeneratorSpy:GameOfLife{
-    
     var evaluations = [[Int]]()
     var dieCellsCalled = [Cell]()
     var liveCellsCalled = [Cell]()
@@ -220,9 +231,7 @@ class LiveGeneratorSpy:GameOfLife{
     
     func setCellState(row: Int, col: Int, state:State) {
         cells[row][col] = state
-    }
-        
-        
+    }  
 }
 
 enum HelperSeedType{
