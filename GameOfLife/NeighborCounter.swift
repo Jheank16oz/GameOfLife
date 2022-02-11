@@ -10,7 +10,7 @@ import Foundation
 import Foundation
 
 
-class NeighborCounter {
+internal class NeighborCounter {
     
     
     
@@ -44,7 +44,7 @@ class NeighborCounter {
     }
 }
 
-extension Array where Element == [State] {
+private extension Array where Element == [State] {
 
     func isAnyLeft(cell:Cell) -> Bool{
         return self[cell.row][cell.col-1] == State.alive

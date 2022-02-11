@@ -11,7 +11,7 @@ internal class GameOfLife {
 
     
     
-    let neighborCounter:NeighborCounter
+    private let neighborCounter:NeighborCounter
     internal var cells:[[State]]
     
     init( cells: [[State]], neighborCounter: NeighborCounter){
@@ -27,7 +27,7 @@ internal class GameOfLife {
         }
     }
 
-    func evaluate(row:Int, col:Int){
+    internal func evaluate(row:Int, col:Int){
         let currentCell = Cell(row: row, col: col)
         let count = neighborCounter.numberOfNeighbors(of:currentCell,in:[[State]]())
         if count >= 0 {
@@ -48,47 +48,23 @@ internal class GameOfLife {
         
     }
     
-    func isAlive(cell:Cell) -> Bool{
+    private func isAlive(cell:Cell) -> Bool{
         let cell = cells[cell.row][cell.col]
         return cell == .alive
     }
     
-    func isDead(cell:Cell) -> Bool{
+    private func isDead(cell:Cell) -> Bool{
         let cell = cells[cell.row][cell.col]
         return cell == .dead
     }
     
-    func die(cell:Cell){
+    internal func die(cell:Cell){
         cells[cell.row][cell.col] = .dead
     }
     
-    func live(cell:Cell){
+    internal func live(cell:Cell){
         cells[cell.row][cell.col] = .alive
     }
-    
-    struct Rule{
-        static let underpopulation = 2
-        static let balanced = 3
-        static let overpopulation = 4
-        static let breed = 3
-        
-        static func isUnderPopulation(count: Int) -> Bool{
-            return count < underpopulation
-        }
-        
-        static func isBalanced(count: Int) -> Bool{
-            return count <= balanced
-        }
-        
-        static func isOverPopulation(count: Int) -> Bool{
-            return count >= overpopulation
-        }
-        
-        static func breed(count: Int) -> Bool{
-            return count == breed
-        }
-    }
-    
 }
 
 public struct Cell:Equatable {
