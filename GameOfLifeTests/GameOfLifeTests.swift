@@ -11,7 +11,7 @@ import XCTest
 class GameOfLifeTests: XCTestCase {
     
     func test_nextGeneration_everyCellShouldBeIterated(){
-        let cells = Seed.generate5x5(seed: .thereIsNotLife)
+        let cells = generateSeed(kind: .thereIsNotLife5x5)
         let counterSpy = NeighborCounterSpy()
         let liveGenerator = LiveGeneratorSpy(cells:cells, neighborCounter:counterSpy)
         
@@ -127,7 +127,7 @@ class GameOfLifeTests: XCTestCase {
     
     func test_nextGeneration_everyNextGenerationUpdates(){
         var updates = 0
-        let life = GameOfLife(cells: Seed.generate5x5(seed: .thereIsNotLife), neighborCounter: NeighborCounter(), update: { cells in
+        let life = GameOfLife(cells: generateSeed(kind: .thereIsNotLife5x5), neighborCounter: NeighborCounter(), update: { cells in
             updates += 1
         })
         
@@ -153,7 +153,7 @@ func makeLiveGenerator(initialCells:[SpyCell]) -> LiveGeneratorSpy{
     let counterSpy = NeighborCounterSpy()
     
     counterSpy.setNeighborCount(neighborCount: initialCells)
-    let cells = Seed.generate5x5(seed: .thereIsNotLife)
+    let cells = generateSeed(kind: .thereIsNotLife5x5)
     
     let liveGenerator = LiveGeneratorSpy(cells:cells, neighborCounter:counterSpy)
     for cell in initialCells {

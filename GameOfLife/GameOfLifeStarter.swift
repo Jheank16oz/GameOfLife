@@ -20,7 +20,7 @@ public class GameOfLifeStarter {
     
     public class Builder {
         public var generationCount = 0
-        public var seed = [[State]]()
+        public var seed:KindSeed?
         public var update:([[State]])->Void = {_ in}
         public init(){
         
@@ -31,11 +31,12 @@ public class GameOfLifeStarter {
                 throw BuildError(kind: .generationsNotConfiguredOrLowerThanZero)
             }
             
-            if seed.isEmpty {
+            if seed == nil {
                 throw BuildError(kind: .seedNotConfigured)
             }
             
-            let gameOfLife = GameOfLife(cells: seed, neighborCounter: NeighborCounter(), update: update)
+            let generatedCells = generateSeed(kind:seed ?? KindSeed.rpentomino20x20)
+            let gameOfLife = GameOfLife(cells: generatedCells, neighborCounter: NeighborCounter(), update: update)
             let tick = Tick(game: gameOfLife, generation: generationCount, completion: {})
             return GameOfLifeStarter(tick: tick)
         }

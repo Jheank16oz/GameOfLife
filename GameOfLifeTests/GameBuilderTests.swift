@@ -15,14 +15,14 @@ class GameBuilderTest:XCTestCase{
     
     func test_build_failsIfGenerationsCountIsEmpty(){
         let gameB = GameOfLifeStarter.Builder()
-        gameB.seed = Seed.generate5x5(seed: .rpentomino)
+        gameB.seed = .rpentomino5x5
         XCTAssertThrowsError(try gameB.build())
     }
     
     func test_build_notFailsIfGenerationsCountIsMoreThan0(){
         let gameB = GameOfLifeStarter.Builder()
         gameB.generationCount = 1
-        gameB.seed = Seed.generate5x5(seed: .rpentomino)
+        gameB.seed = .rpentomino5x5
         XCTAssertNoThrow(try gameB.build())
     }
     
@@ -45,11 +45,11 @@ class GameBuilderTest:XCTestCase{
     func test_oneTick_endToEnd(){
         let gameB = GameOfLifeStarter.Builder()
         gameB.generationCount = 1
-        gameB.seed = Seed.generate5x5(seed: .rpentomino)
+        gameB.seed = .rpentomino5x5
         
         let exp = expectation(description: "wait first generation")
         gameB.update = { cells in
-            XCTAssertEqual(cells, Seed.generate5x5(seed: .rpentomino2generation))
+            XCTAssertEqual(cells, generateSeed(kind: .rpentomino2generation5x5))
             exp.fulfill()
         }
         do {
@@ -65,7 +65,7 @@ class GameBuilderTest:XCTestCase{
     func test_oneTick_endToEndWithStrangeSeedShouldNotFail(){
         let gameB = GameOfLifeStarter.Builder()
         gameB.generationCount = 1
-        gameB.seed = Seed.generate5x5(seed: .strangeSeed)
+        gameB.seed = .strangeSeed
     
         do {
             let game = try gameB.build()
