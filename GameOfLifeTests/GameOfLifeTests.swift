@@ -11,7 +11,7 @@ import XCTest
 class GameOfLifeTests: XCTestCase {
     
     func test_nextGeneration_everyCellShouldBeIterated(){
-        let cells = seedWith(type: .thereIsNotLife)
+        let cells = Seed.generate5x5(seed: .thereIsNotLife)
         let counterSpy = NeighborCounterSpy()
         let liveGenerator = LiveGeneratorSpy(cells:cells, neighborCounter:counterSpy)
         
@@ -127,7 +127,7 @@ class GameOfLifeTests: XCTestCase {
     
     func test_nextGeneration_everyNextGenerationUpdates(){
         var updates = 0
-        let life = GameOfLife(cells: Seed.emptySeed, neighborCounter: NeighborCounter(), update: { cells in
+        let life = GameOfLife(cells: Seed.generate5x5(seed: .thereIsNotLife), neighborCounter: NeighborCounter(), update: { cells in
             updates += 1
         })
         
@@ -153,8 +153,9 @@ func makeLiveGenerator(initialCells:[SpyCell]) -> LiveGeneratorSpy{
     let counterSpy = NeighborCounterSpy()
     
     counterSpy.setNeighborCount(neighborCount: initialCells)
+    let cells = Seed.generate5x5(seed: .thereIsNotLife)
     
-    let liveGenerator = LiveGeneratorSpy(cells:seedWith(type: .thereIsNotLife), neighborCounter:counterSpy)
+    let liveGenerator = LiveGeneratorSpy(cells:cells, neighborCounter:counterSpy)
     for cell in initialCells {
         liveGenerator.setCellState(row: cell.row, col: cell.col,state: cell.state)
     }
@@ -238,16 +239,3 @@ enum HelperSeedType{
     case thereIsNotLife
 }
     
-func seedWith(type: HelperSeedType) -> [[State]]{
-    
-    switch type{
-    case .thereIsNotLife:
-        return[
-            [.dead, .dead, .dead, .dead],
-            [.dead, .dead, .dead, .dead],
-            [.dead, .dead, .dead, .dead],
-            [.dead, .dead, .dead, .dead],
-            [.dead, .dead, .dead, .dead]]
-    }
-    return [[]]
-}

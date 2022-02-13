@@ -83,7 +83,7 @@ class NeighborCounterTests: XCTestCase {
     
     func makePowerSeed(with neighborCount: Int) -> (counter:NeighborCounter, seeds:[[[State]]]) {
         let counter = NeighborCounter()
-        let seeds = Seed.generate(at:referenceCell, neighborCount:neighborCount)
+        let seeds = SeedHelper.generate(at:referenceCell, neighborCount:neighborCount)
         return (counter, seeds)
     }
     
@@ -91,7 +91,7 @@ class NeighborCounterTests: XCTestCase {
 
 // Helpers
 
-final class Seed {
+final class SeedHelper {
     static func generate(at cell:Cell,neighborCount:Int) -> [[[State]]]{
         let sets = setsOf(count:neighborCount)
         var seeds = [[[State]]]()

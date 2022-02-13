@@ -15,14 +15,14 @@ class GameBuilderTest:XCTestCase{
     
     func test_build_failsIfGenerationsCountIsEmpty(){
         let gameB = GameOfLifeStarter.Builder()
-        gameB.seed = rpentomino()
+        gameB.seed = Seed.generate5x5(seed: .rpantomino)
         XCTAssertThrowsError(try gameB.build())
     }
     
     func test_build_notFailsIfGenerationsCountIsMoreThan0(){
         let gameB = GameOfLifeStarter.Builder()
         gameB.generationCount = 1
-        gameB.seed = rpentomino()
+        gameB.seed = Seed.generate5x5(seed: .rpantomino)
         XCTAssertNoThrow(try gameB.build())
     }
     
@@ -45,11 +45,11 @@ class GameBuilderTest:XCTestCase{
     func test_oneTick_endToEnd(){
         let gameB = GameOfLifeStarter.Builder()
         gameB.generationCount = 1
-        gameB.seed = rpentomino()
+        gameB.seed = Seed.generate5x5(seed: .rpantomino)
         
         let exp = expectation(description: "wait first generation")
         gameB.update = { cells in
-            XCTAssertEqual(cells, rpentomino2Generation())
+            XCTAssertEqual(cells, Seed.generate5x5(seed: .rpantomino2generation))
             exp.fulfill()
         }
         do {
@@ -65,9 +65,8 @@ class GameBuilderTest:XCTestCase{
     func test_oneTick_endToEndWithStrangeSeedShouldNotFail(){
         let gameB = GameOfLifeStarter.Builder()
         gameB.generationCount = 1
-        gameB.seed = strangeSeed()
+        gameB.seed = Seed.generate5x5(seed: .strangeSeed)
     
-       
         do {
             let game = try gameB.build()
             XCTAssertNoThrow(game.start())
@@ -76,36 +75,7 @@ class GameBuilderTest:XCTestCase{
             XCTFail("unexpected failed")
         }
     }
-}
-
-func strangeSeed() -> [[State]]{
-
-    return[
-            [.dead, .dead, ],
-            [.dead, .alive, .alive, .dead,.dead, .alive, .alive, .dead],
-            [.alive, .alive, .dead, .dead],
-            [],
-            [.dead, .dead, .dead]]
-}
-  
-func rpentomino() -> [[State]]{
-
-    return[
-            [.dead, .dead, .dead, .dead],
-            [.dead, .alive, .alive, .dead],
-            [.alive, .alive, .dead, .dead],
-            [.dead, .alive, .dead, .dead],
-            [.dead, .dead, .dead, .dead]]
-}
-
-func rpentomino2Generation() -> [[State]]{
-
-    return[
-            [.dead, .dead, .dead, .dead],
-            [.alive, .alive, .alive, .dead],
-            [.alive, .dead, .dead, .dead],
-            [.alive, .alive, .dead, .dead],
-            [.dead, .dead, .dead, .dead]]
+    
 }
 
 class GameSpy:GameOfLifeStarter{
