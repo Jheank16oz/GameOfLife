@@ -127,7 +127,7 @@ class GameOfLifeTests: XCTestCase {
     
     func test_nextGeneration_everyNextGenerationUpdates(){
         var updates = 0
-        let life = GameOfLife(cells: Seed.emptySeed, neighborCounter: NeighborCounter(), update: {
+        let life = GameOfLife(cells: Seed.emptySeed, neighborCounter: NeighborCounter(), update: { cells in
             updates += 1
         })
         

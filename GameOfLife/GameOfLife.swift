@@ -13,26 +13,29 @@ internal class GameOfLife {
     
     private let neighborCounter:NeighborCounter
     internal var cells:[[State]]
-    let update:()->Void
+    internal var auxCells:[[State]] = [[State]]()
+    let update:([[State]])->Void
     
-    init(cells: [[State]], neighborCounter: NeighborCounter, update:@escaping ()->Void = { }){
+    init(cells: [[State]], neighborCounter: NeighborCounter, update:@escaping ([[State]])->Void = {_ in }){
         self.cells = cells
         self.neighborCounter = neighborCounter
         self.update = update
     }
   
     func nextGeneration(){
+        auxCells = cells
         for (indexRow,cell) in cells.enumerated() {
             for (indexCol, _) in cell.enumerated() {
                 evaluate(row: indexRow, col: indexCol)
             }
         }
-        update()
+        cells = auxCells
+        update(cells)
     }
 
     internal func evaluate(row:Int, col:Int){
         let currentCell = Cell(row: row, col: col)
-        let count = neighborCounter.numberOfNeighbors(of:currentCell,in:[[State]]())
+        let count = neighborCounter.numberOfNeighbors(of:currentCell,in:cells)
         if count >= 0 {
             if isAlive(cell:currentCell) {
                 if Rule.isUnderPopulation(count: count) {
@@ -62,11 +65,11 @@ internal class GameOfLife {
     }
     
     internal func die(cell:Cell){
-        cells[cell.row][cell.col] = .dead
+        auxCells[cell.row][cell.col] = .dead
     }
     
     internal func live(cell:Cell){
-        cells[cell.row][cell.col] = .alive
+        auxCells[cell.row][cell.col] = .alive
     }
 }
 
@@ -76,7 +79,7 @@ public struct Cell:Equatable {
 }
 
 
-enum State{
+public enum State{
     case dead
     case alive
 }

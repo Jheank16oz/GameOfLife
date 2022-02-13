@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3F0A397A27B97862008B7DAA /* GameOfLifeStarter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0A397927B97862008B7DAA /* GameOfLifeStarter.swift */; };
 		3F0A397C27B97899008B7DAA /* GameBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0A397B27B97899008B7DAA /* GameBuilderTests.swift */; };
+		3F0A397E27B98C1D008B7DAA /* Seed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0A397D27B98C1D008B7DAA /* Seed.swift */; };
 		3FACFE6727B6E467004A7C98 /* Tick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FACFE6627B6E467004A7C98 /* Tick.swift */; };
 		3FACFE6A27B6E4B6004A7C98 /* TickTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FACFE6827B6E4B2004A7C98 /* TickTests.swift */; };
 		3FDABD2C27B5DA8300D78E8A /* NeighborCounterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDABD2B27B5DA8300D78E8A /* NeighborCounterTests.swift */; };
@@ -33,6 +34,7 @@
 /* Begin PBXFileReference section */
 		3F0A397927B97862008B7DAA /* GameOfLifeStarter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOfLifeStarter.swift; sourceTree = "<group>"; };
 		3F0A397B27B97899008B7DAA /* GameBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBuilderTests.swift; sourceTree = "<group>"; };
+		3F0A397D27B98C1D008B7DAA /* Seed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Seed.swift; sourceTree = "<group>"; };
 		3FACFE6627B6E467004A7C98 /* Tick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tick.swift; sourceTree = "<group>"; };
 		3FACFE6827B6E4B2004A7C98 /* TickTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickTests.swift; sourceTree = "<group>"; };
 		3FDABD2B27B5DA8300D78E8A /* NeighborCounterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeighborCounterTests.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				3FDABD2D27B6A6FE00D78E8A /* Rule.swift */,
 				3FACFE6627B6E467004A7C98 /* Tick.swift */,
 				3F0A397927B97862008B7DAA /* GameOfLifeStarter.swift */,
+				3F0A397D27B98C1D008B7DAA /* Seed.swift */,
 			);
 			path = GameOfLife;
 			sourceTree = "<group>";
@@ -218,6 +221,7 @@
 			files = (
 				3F0A397A27B97862008B7DAA /* GameOfLifeStarter.swift in Sources */,
 				3FACFE6727B6E467004A7C98 /* Tick.swift in Sources */,
+				3F0A397E27B98C1D008B7DAA /* Seed.swift in Sources */,
 				3FDABD2E27B6A6FE00D78E8A /* Rule.swift in Sources */,
 				3FF0E7F827B2E6BE00BE48B9 /* NeighborCounter.swift in Sources */,
 				3FE9466227B1E21600FF24ED /* GameOfLife.swift in Sources */,

@@ -15,7 +15,7 @@ class TickTests: XCTestCase {
     func test_tick_everyTickCallNextGeneration(){
         let exp = expectation(description: "Expect ticks count")
         
-        let game = GameOfLifeSpy(cells: [[]], neighborCounter: NeighborCounter(), update: {})
+        let game = GameOfLifeSpy(cells: [[]], neighborCounter: NeighborCounter(), update: { _ in})
         Tick(game: game, generation: 10, completion: {
             
             XCTAssertEqual(game.nextGenerationCalls, 10)

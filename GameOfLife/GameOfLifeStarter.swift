@@ -20,6 +20,8 @@ public class GameOfLifeStarter {
     
     public class Builder {
         public var generationCount = 0
+        public var seed = [[State]]()
+        public var update:([[State]])->Void = {_ in}
         public init(){
         
         }
@@ -28,9 +30,12 @@ public class GameOfLifeStarter {
             if generationCount <= 0 {
                 throw BuildError(kind: .generationsNotConfiguredOrLowerThanZero)
             }
-            let gameOfLife = GameOfLife(cells: [[State]](), neighborCounter: NeighborCounter(), update: {
             
-            })
+            if seed.isEmpty {
+                throw BuildError(kind: .seedNotConfigured)
+            }
+            
+            let gameOfLife = GameOfLife(cells: seed, neighborCounter: NeighborCounter(), update: update)
             let tick = Tick(game: gameOfLife, generation: generationCount, completion: {})
             return GameOfLifeStarter(tick: tick)
         }
@@ -41,8 +46,9 @@ public class GameOfLifeStarter {
 }
 
 public struct BuildError: Error {
-    enum ErrorKind {
+    public enum ErrorKind {
         case generationsNotConfiguredOrLowerThanZero
+        case seedNotConfigured
     }
     let kind: ErrorKind
          
