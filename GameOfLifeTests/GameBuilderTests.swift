@@ -62,8 +62,32 @@ class GameBuilderTest:XCTestCase{
         wait(for: [exp], timeout: 20)
     }
     
+    func test_oneTick_endToEndWithStrangeSeedShouldNotFail(){
+        let gameB = GameOfLifeStarter.Builder()
+        gameB.generationCount = 1
+        gameB.seed = strangeSeed()
     
+       
+        do {
+            let game = try gameB.build()
+            XCTAssertNoThrow(game.start())
+            
+        } catch{
+            XCTFail("unexpected failed")
+        }
+    }
 }
+
+func strangeSeed() -> [[State]]{
+
+    return[
+            [.dead, .dead, ],
+            [.dead, .alive, .alive, .dead,.dead, .alive, .alive, .dead],
+            [.alive, .alive, .dead, .dead],
+            [],
+            [.dead, .dead, .dead]]
+}
+  
 func rpentomino() -> [[State]]{
 
     return[
