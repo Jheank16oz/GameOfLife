@@ -48,10 +48,7 @@ class GameBuilderTest:XCTestCase{
         gameB.seed = rpentomino()
         
         let exp = expectation(description: "wait first generation")
-        printSeed(seed: rpentomino())
         gameB.update = { cells in
-            printSeed(seed: cells)
-            printSeed(seed: rpentomino2Generation())
             XCTAssertEqual(cells, rpentomino2Generation())
             exp.fulfill()
         }
@@ -67,21 +64,6 @@ class GameBuilderTest:XCTestCase{
     
     
 }
-
-func printSeed(seed:[[State]]){
-        var value = ""
-        for (_,row) in seed.enumerated() {
-            var rowString = ""
-            for (_,col) in row.enumerated() {
-                //let state = col == State.alive ? "🕷" : "🕸"
-                let state = col == State.alive ? "❤️" : "🤍"
-                rowString += "\(state)"
-            }
-            value += "\(rowString)\n"
-        }
-        print("\(value)")
-}
-    
 func rpentomino() -> [[State]]{
 
     return[
