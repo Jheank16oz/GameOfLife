@@ -6,7 +6,7 @@ The Game of Life, also known simply as Life, is a cellular automaton devised by 
 
 ## Project information
 
-This project is a TDD project that implement best practices to coding and Clean Architecture Principles
+This project is a TDD implementation with best practices to coding and Clean Architecture Principles
 
 The users story of this project were based on 
 
