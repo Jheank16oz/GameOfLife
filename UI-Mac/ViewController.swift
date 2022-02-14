@@ -44,11 +44,11 @@ class ViewController: NSViewController {
             var rowString = ""
             for (_,col) in row.enumerated() {
                 //let state = col == State.alive ? "🌸" : "🌿"
-                let state = col == State.alive ? "🤡" : "💤"
+                //let state = col == State.alive ? "🤡" : "💤"
                 //let state = col == State.alive ? "🐇" : "🐾"
                 //let state = col == State.alive ? "🧝" : "🧟‍♂️"
                 //let state = col == State.alive ? "🕷" : "🕸"
-                //let state = col == State.alive ? "❤️" : "🤍"
+                let state = col == State.alive ? "❤️" : "🤍"
                 rowString += "\(state)"
             }
             value += "\(rowString)\n"
